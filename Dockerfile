@@ -23,7 +23,7 @@ RUN sed -i \
     -e '$aInclude conf/extra/httpd-metrics.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
     -e '$aInclude conf/extra/httpd-ssl.conf' \
-    -e '$aServerName services.outsideworx.net' \
+    -e '$aServerName sites.outsideworx.net' \
     conf/httpd.conf
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
@@ -111,7 +111,7 @@ ProxyPassReverse "/api/"  "https://vault/api/"
 EOF
 
 RUN sed -i \
-    -e 's|^ServerName.*|ServerName services.outsideworx.net|' \
+    -e 's|^ServerName.*|ServerName sites.outsideworx.net|' \
     -e 's|^SSLCertificateFile.*|SSLCertificateFile "/usr/local/apache2/conf/fullchain.pem"|' \
     -e 's|^SSLCertificateKeyFile.*|SSLCertificateKeyFile "/usr/local/apache2/conf/privkey.pem"|' \
     -e '/<\/VirtualHost>/i <Location "/metrics.txt">\nRequire all denied\n</Location>' \
