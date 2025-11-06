@@ -1,0 +1,57 @@
+services:
+  come-in-and-find-out:
+    build:
+      args:
+        NAME: come-in-and-find-out
+      dockerfile: Dockerfile.test
+    container_name: come-in-and-find-out
+    ports:
+      - "9001:80"
+  duckumbrella:
+    build:
+      args:
+        NAME: duckumbrella
+      dockerfile: Dockerfile.test
+    container_name: duckumbrella
+    ports:
+      - "9002:80"
+  gaiapeeps:
+    build:
+      args:
+        NAME: gaiapeeps
+      dockerfile: Dockerfile.test
+    container_name: gaiapeeps
+    ports:
+      - "9003:80"
+  igli:
+    build:
+      args:
+        NAME: igli
+      dockerfile: Dockerfile.test
+    container_name: igli
+    ports:
+      - "9004:80"
+  outsideworx:
+    build:
+      args:
+        NAME: outsideworx
+      dockerfile: Dockerfile.test
+    container_name: outsideworx
+    ports:
+      - "9005:80"
+  soupart:
+    build:
+      args:
+        NAME: soupart
+      dockerfile: Dockerfile.test
+    container_name: soupart
+    ports:
+      - "9006:80"
+  soupkitchen:
+    build:
+      args:
+        NAME: soupkitchen
+      dockerfile: Dockerfile.test
+    container_name: soupkitchen
+    ports:
+      - "9007:80"

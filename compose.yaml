@@ -1,0 +1,108 @@
+x-common-certificate: &common-certificate
+  ${SERVER_SSL_CERTIFICATE}:/usr/local/apache2/conf/fullchain.pem
+x-common-certificate-private-key: &common-certificate-private-key
+  ${SERVER_SSL_CERTIFICATE_PRIVATE_KEY}:/usr/local/apache2/conf/privkey.pem
+networks:
+  services_default:
+    external: true
+services:
+  come-in-and-find-out:
+    build:
+      args:
+        NAME: come-in-and-find-out
+        TOKEN: $APP_CLIENTS_CIAFO_TOKEN
+      dockerfile: .
+    container_name: come-in-and-find-out
+    networks:
+      - services_default
+    ports:
+      - "9001:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  duckumbrella:
+    build:
+      args:
+        NAME: duckumbrella
+      dockerfile: .
+    container_name: duckumbrella
+    networks:
+      - services_default
+    ports:
+      - "9002:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  gaiapeeps:
+    build:
+      args:
+        NAME: gaiapeeps
+        TOKEN: $APP_CLIENTS_PEEPS_TOKEN
+      dockerfile: .
+    container_name: gaiapeeps
+    networks:
+      - services_default
+    ports:
+      - "9003:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  igli:
+    build:
+      args:
+        NAME: igli
+      dockerfile: .
+    container_name: igli
+    networks:
+      - services_default
+    ports:
+      - "9004:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  outsideworx:
+    build:
+      args:
+        NAME: outsideworx
+      dockerfile: .
+    container_name: outsideworx
+    networks:
+      - services_default
+    ports:
+      - "9005:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  soupart:
+    build:
+      args:
+        NAME: soupart
+      dockerfile: .
+    container_name: soupart
+    networks:
+      - services_default
+    ports:
+      - "9006:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  soupkitchen:
+    build:
+      args:
+        NAME: soupkitchen
+      dockerfile: .
+    container_name: soupkitchen
+    networks:
+      - services_default
+    ports:
+      - "9007:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
