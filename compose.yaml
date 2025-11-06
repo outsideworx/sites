@@ -11,7 +11,6 @@ services:
       args:
         NAME: come-in-and-find-out
         TOKEN: $APP_CLIENTS_CIAFO_TOKEN
-      dockerfile: Dockerfile
     container_name: come-in-and-find-out
     networks:
       - services_default
@@ -25,7 +24,6 @@ services:
     build:
       args:
         NAME: duckumbrella
-      dockerfile: Dockerfile
     container_name: duckumbrella
     networks:
       - services_default
@@ -40,7 +38,6 @@ services:
       args:
         NAME: gaiapeeps
         TOKEN: $APP_CLIENTS_PEEPS_TOKEN
-      dockerfile: Dockerfile
     container_name: gaiapeeps
     networks:
       - services_default
@@ -54,7 +51,6 @@ services:
     build:
       args:
         NAME: igli
-      dockerfile: Dockerfile
     container_name: igli
     networks:
       - services_default
@@ -68,7 +64,6 @@ services:
     build:
       args:
         NAME: outsideworx
-      dockerfile: Dockerfile
     container_name: outsideworx
     networks:
       - services_default
@@ -82,7 +77,6 @@ services:
     build:
       args:
         NAME: soupart
-      dockerfile: Dockerfile
     container_name: soupart
     networks:
       - services_default
@@ -96,7 +90,6 @@ services:
     build:
       args:
         NAME: soupkitchen
-      dockerfile: Dockerfile
     container_name: soupkitchen
     networks:
       - services_default
