@@ -66,8 +66,6 @@ ProxyPreserveHost On
 SSLProxyEngine On
 SSLProxyVerify none
 SSLProxyCheckPeerName off
-SSLProxyCheckPeerCN off
-SSLProxyCheckPeerExpire off
 ProxyPass        "/api/"  "https://vault/api/"
 ProxyPassReverse "/api/"  "https://vault/api/"
 <IfModule mod_headers.c>
