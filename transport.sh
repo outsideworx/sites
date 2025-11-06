@@ -19,8 +19,7 @@ if [ "$1" == "--deploy" ]; then
         cd /home/outsideworx/sites;
         docker compose build --no-cache --pull
         docker compose up --force-recreate --no-deps -d;
-        docker system prune -af;
-        docker logs oauth -f"
+        docker system prune -af"
 else
     echo "Error: Only deploy mode is supported!"
     exit 1
