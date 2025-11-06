@@ -6,35 +6,35 @@ networks:
   services_default:
     external: true
 services:
-#  come-in-and-find-out:
-#    build:
-#      args:
-#        NAME: come-in-and-find-out
-#        TOKEN: $APP_CLIENTS_CIAFO_TOKEN
-#      dockerfile: Dockerfile
-#    container_name: come-in-and-find-out
-#    networks:
-#      - services_default
-#    ports:
-#      - "9001:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
-#  duckumbrella:
-#    build:
-#      args:
-#        NAME: duckumbrella
-#      dockerfile: Dockerfile
-#    container_name: duckumbrella
-#    networks:
-#      - services_default
-#    ports:
-#      - "9002:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
+  come-in-and-find-out:
+    build:
+      args:
+        NAME: come-in-and-find-out
+        TOKEN: $APP_CLIENTS_CIAFO_TOKEN
+      dockerfile: Dockerfile
+    container_name: come-in-and-find-out
+    networks:
+      - services_default
+    ports:
+      - "9001:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  duckumbrella:
+    build:
+      args:
+        NAME: duckumbrella
+      dockerfile: Dockerfile
+    container_name: duckumbrella
+    networks:
+      - services_default
+    ports:
+      - "9002:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
   gaiapeeps:
     build:
       args:
@@ -50,59 +50,59 @@ services:
     volumes:
       - *common-certificate
       - *common-certificate-private-key
-#  igli:
-#    build:
-#      args:
-#        NAME: igli
-#      dockerfile: Dockerfile
-#    container_name: igli
-#    networks:
-#      - services_default
-#    ports:
-#      - "9004:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
-#  outsideworx:
-#    build:
-#      args:
-#        NAME: outsideworx
-#      dockerfile: Dockerfile
-#    container_name: outsideworx
-#    networks:
-#      - services_default
-#    ports:
-#      - "9005:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
-#  soupart:
-#    build:
-#      args:
-#        NAME: soupart
-#      dockerfile: Dockerfile
-#    container_name: soupart
-#    networks:
-#      - services_default
-#    ports:
-#      - "9006:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
-#  soupkitchen:
-#    build:
-#      args:
-#        NAME: soupkitchen
-#      dockerfile: Dockerfile
-#    container_name: soupkitchen
-#    networks:
-#      - services_default
-#    ports:
-#      - "9007:443"
-#    restart: unless-stopped
-#    volumes:
-#      - *common-certificate
-#      - *common-certificate-private-key
+  igli:
+    build:
+      args:
+        NAME: igli
+      dockerfile: Dockerfile
+    container_name: igli
+    networks:
+      - services_default
+    ports:
+      - "9004:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  outsideworx:
+    build:
+      args:
+        NAME: outsideworx
+      dockerfile: Dockerfile
+    container_name: outsideworx
+    networks:
+      - services_default
+    ports:
+      - "9005:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  soupart:
+    build:
+      args:
+        NAME: soupart
+      dockerfile: Dockerfile
+    container_name: soupart
+    networks:
+      - services_default
+    ports:
+      - "9006:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
+  soupkitchen:
+    build:
+      args:
+        NAME: soupkitchen
+      dockerfile: Dockerfile
+    container_name: soupkitchen
+    networks:
+      - services_default
+    ports:
+      - "9007:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
