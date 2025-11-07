@@ -1,3 +1,6 @@
+networks:
+  services_default:
+    external: true
 services:
   come-in-and-find-out:
     build:
@@ -5,6 +8,8 @@ services:
         NAME: come-in-and-find-out
       dockerfile: Dockerfile.test
     container_name: come-in-and-find-out
+    networks:
+      - services_default
     ports:
       - "9001:80"
   duckumbrella:
@@ -13,6 +18,8 @@ services:
         NAME: duckumbrella
       dockerfile: Dockerfile.test
     container_name: duckumbrella
+    networks:
+      - services_default
     ports:
       - "9002:80"
   gaiapeeps:
@@ -21,6 +28,8 @@ services:
         NAME: gaiapeeps
       dockerfile: Dockerfile.test
     container_name: gaiapeeps
+    networks:
+      - services_default
     ports:
       - "9003:80"
   igli:
@@ -29,6 +38,8 @@ services:
         NAME: igli
       dockerfile: Dockerfile.test
     container_name: igli
+    networks:
+      - services_default
     ports:
       - "9004:80"
   outsideworx:
@@ -37,6 +48,8 @@ services:
         NAME: outsideworx
       dockerfile: Dockerfile.test
     container_name: outsideworx
+    networks:
+      - services_default
     ports:
       - "9005:80"
   soupart:
@@ -45,6 +58,8 @@ services:
         NAME: soupart
       dockerfile: Dockerfile.test
     container_name: soupart
+    networks:
+      - services_default
     ports:
       - "9006:80"
   soupkitchen:
@@ -53,5 +68,7 @@ services:
         NAME: soupkitchen
       dockerfile: Dockerfile.test
     container_name: soupkitchen
+    networks:
+      - services_default
     ports:
       - "9007:80"
