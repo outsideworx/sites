@@ -11,7 +11,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9001:80"
+      - "9000:80"
   duckumbrella:
     build:
       args:
@@ -21,7 +21,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9002:80"
+      - "9001:80"
   gaiapeeps:
     build:
       args:
@@ -31,7 +31,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9003:80"
+      - "9002:80"
   igli:
     build:
       args:
@@ -41,7 +41,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9004:80"
+      - "9003:80"
   outsideworx:
     build:
       args:
@@ -51,7 +51,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9005:80"
+      - "9004:80"
   soupart:
     build:
       args:
@@ -61,7 +61,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9006:80"
+      - "9005:80"
   soupkitchen:
     build:
       args:
@@ -71,4 +71,4 @@ services:
     networks:
       - services_default
     ports:
-      - "9007:80"
+      - "9006:80"

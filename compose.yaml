@@ -15,7 +15,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9001:443"
+      - "9000:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -28,7 +28,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9002:443"
+      - "9001:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -42,7 +42,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9003:443"
+      - "9002:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -55,7 +55,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9004:443"
+      - "9003:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -68,7 +68,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9005:443"
+      - "9004:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -81,7 +81,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9006:443"
+      - "9005:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
@@ -94,7 +94,7 @@ services:
     networks:
       - services_default
     ports:
-      - "9007:443"
+      - "9006:443"
     restart: unless-stopped
     volumes:
       - *common-certificate
