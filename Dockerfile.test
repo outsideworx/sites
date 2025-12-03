@@ -1,11 +1,11 @@
 FROM bitnami/git AS fetcher
 ARG NAME
-RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /site
+RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /sites
 
 FROM httpd:2.4
 ARG NAME
 ENV NAME=${NAME}
-COPY --from=fetcher /site /usr/local/apache2/htdocs/
+COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 
 RUN sed -i \
     -e 's|#LoadModule headers_module modules/mod_headers.so|LoadModule headers_module modules/mod_headers.so|' \
