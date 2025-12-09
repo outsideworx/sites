@@ -90,13 +90,13 @@ ProxyPassReverse "/api/"  "https://vault/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/grafana/?$ https://services.outsideworx.net/grafana
-    RedirectMatch 301 ^/login/?$   https://services.outsideworx.net/login
-    RedirectMatch 301 ^/ntfy/?$   https://services.outsideworx.net/ntfy
-    RedirectMatch 403 ^/\.
-    RedirectMatch 403 \.php$
-    RedirectMatch 403 ^(?!/(?:metrics|robots)).*\.txt$
-    RedirectMatch 403 ^(?!/sitemap).*\.xml$
+    RedirectMatch 301 ^/grafana(/.*)?$  https://services.outsideworx.net/grafana$1
+    RedirectMatch 301 ^/login(/.*)?$    https://services.outsideworx.net/login$1
+    RedirectMatch 301 ^/ntfy(/.*)?$     https://services.outsideworx.net/ntfy$1
+    RedirectMatch 403 /\.
+    RedirectMatch 403 \.(conf|config|log|properties|php|py|sh|ts|yaml|yml)/?$
+    RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt$
+    RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
 </IfModule>
 <IfModule mod_ratelimit.c>
     SetOutputFilter RATE_LIMIT
