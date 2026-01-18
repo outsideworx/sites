@@ -77,7 +77,7 @@ services:
     build:
       args:
         NAME: soupart
-        TOKEN: $APP_CLIENTS_SOUPART_TOKEN
+        TOKEN: $APP_CLIENTS_SOUP_TOKEN
     container_name: soupart
     networks:
       - services_default
