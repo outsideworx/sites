@@ -96,7 +96,7 @@ ProxyPassReverse "/api/"  "https://vault/api/"
     RedirectMatch 301 ^/login/?$    https://services.outsideworx.net/login
     RedirectMatch 301 ^/ntfy/?$     https://services.outsideworx.net/ntfy
     RedirectMatch 403 /\.
-    RedirectMatch 403 \.(bak|conf|config|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
+    RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
     RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$
     RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
 </IfModule>
