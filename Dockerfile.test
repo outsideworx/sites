@@ -47,8 +47,10 @@ RUN apt update -qq && apt install -y curl; \
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/" "http://host.docker.internal/api/"
-ProxyPassReverse "/api/" "http://host.docker.internal/api/"
+ProxyPass        "/api/"      "http://host.docker.internal/api/"
+ProxyPassReverse "/api/"      "http://host.docker.internal/api/"
+ProxyPass        "/clients/"  "http://host.docker.internal/clients/"
+ProxyPassReverse "/clients/"  "http://host.docker.internal/clients/"
 <IfModule mod_headers.c>
     RequestHeader set X-Auth-Token "test"
     RequestHeader set X-Caller-Id "${NAME}"
