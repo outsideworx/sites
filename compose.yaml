@@ -100,3 +100,16 @@ services:
     volumes:
       - *common-certificate
       - *common-certificate-private-key
+  gogreengo:
+    build:
+      args:
+        NAME: gogreengo
+    container_name: gogreengo
+    networks:
+      - services_default
+    ports:
+      - "9007:443"
+    restart: unless-stopped
+    volumes:
+      - *common-certificate
+      - *common-certificate-private-key
