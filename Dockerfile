@@ -92,10 +92,13 @@ ProxyPassReverse "/api/"  "https://vault/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/clients/gogreengo/?$  https://services.outsideworx.net/clients/gogreengo
-    RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
-    RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
-    RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
+    RedirectMatch 301 ^/clients/come-in-and-find-out/?$ https://services.outsideworx.net/clients/come-in-and-find-out
+    RedirectMatch 301 ^/clients/gaiapeeps/?$            https://services.outsideworx.net/clients/gaiapeeps
+    RedirectMatch 301 ^/clients/soupart/?$              https://services.outsideworx.net/clients/soupart
+    RedirectMatch 301 ^/clients/gogreengo/?$            https://services.outsideworx.net/clients/gogreengo
+    RedirectMatch 301 ^/grafana/?$                      https://services.outsideworx.net/grafana
+    RedirectMatch 301 ^/login/?$                        https://services.outsideworx.net/login
+    RedirectMatch 301 ^/ntfy/?$                         https://services.outsideworx.net/ntfy
     RedirectMatch 403 /\.
     RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
     RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$

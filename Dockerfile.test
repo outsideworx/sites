@@ -71,10 +71,13 @@ ProxyPassReverse "/api/" "http://host.docker.internal/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/clients/gogreengo/?$  http://localhost/clients/gogreengo
-    RedirectMatch 301 ^/grafana/?$            http://localhost/grafana
-    RedirectMatch 301 ^/login/?$              http://localhost/login
-    RedirectMatch 301 ^/ntfy/?$               http://localhost/ntfy
+    RedirectMatch 301 ^/clients/come-in-and-find-out/?$ http://localhost/clients/come-in-and-find-out
+    RedirectMatch 301 ^/clients/gaiapeeps/?$            http://localhost/clients/gaiapeeps
+    RedirectMatch 301 ^/clients/soupart/?$              http://localhost/clients/soupart
+    RedirectMatch 301 ^/clients/gogreengo/?$            http://localhost/clients/gogreengo
+    RedirectMatch 301 ^/grafana/?$                      http://localhost/grafana
+    RedirectMatch 301 ^/login/?$                        http://localhost/login
+    RedirectMatch 301 ^/ntfy/?$                         http://localhost/ntfy
     RedirectMatch 403 /\.
     RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
     RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$
