@@ -92,7 +92,7 @@ ProxyPassReverse "/api/"  "https://vault/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/clients/?(.*)$  https://services.outsideworx.net/clients/$1
+    RedirectMatch 301 ^/clients/(.*)$   https://services.outsideworx.net/clients/$1
     RedirectMatch 301 ^/grafana/?$      https://services.outsideworx.net/grafana
     RedirectMatch 301 ^/login/?$        https://services.outsideworx.net/login
     RedirectMatch 301 ^/ntfy/?$         https://services.outsideworx.net/ntfy
