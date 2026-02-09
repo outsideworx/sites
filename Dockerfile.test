@@ -26,9 +26,9 @@ RUN find conf -type f -name '*.conf' -exec sed -i \
     -e '/^[[:space:]]*ErrorLog/d' {} +
 
 RUN cat <<EOF > conf/extra/httpd-logs.conf
-ErrorLogFormat "ERROR %P --- requestId=%{UNIQUE_ID}e ip=%a: %M"
+ErrorLogFormat "%P --- requestId=%{UNIQUE_ID}e ip=%a: %M"
 ErrorLog |/usr/local/bin/send-to-loki.sh
-LogFormat " INFO %P --- requestId=%{UNIQUE_ID}e ip=%a: %r %>s" log_format
+LogFormat "%P --- requestId=%{UNIQUE_ID}e ip=%a: %r %>s" log_format
 SetEnvIf Request_URI "^/metrics$" no_log
 CustomLog |/usr/local/bin/send-to-loki.sh log_format env=!no_log
 EOF
