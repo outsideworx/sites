@@ -34,18 +34,19 @@ RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*TransferLog/d' {} +
 
 RUN cat <<EOF > conf/extra/httpd-logs.conf
-ErrorLogFormat "%P --- requestId=%{UNIQUE_ID}e ip=%a: %M"
-ErrorLog |/usr/local/bin/send-to-loki.sh
-LogFormat "%P --- requestId=%{UNIQUE_ID}e ip=%a: %r %>s" log_format
+ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
+ErrorLog "|/usr/local/bin/send-to-loki.sh error"
+LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
 SetEnvIf Request_URI "^/metrics$" no_log
-CustomLog |/usr/local/bin/send-to-loki.sh log_format env=!no_log
+CustomLog "|/usr/local/bin/send-to-loki.sh info" log_format env=!no_log
 EOF
 
 RUN cat <<'EOF' > /usr/local/bin/send-to-loki.sh
 #!/bin/sh
+level=${1:-warn}
 while read -r line; do
     timestamp=$(($(date +%s) * 1000000000))
-    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"level\":\"info\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
+    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
     curl -s -X POST -H "Content-Type: application/json" -d "$json" http://loki:3100/loki/api/v1/push
 done
 EOF
