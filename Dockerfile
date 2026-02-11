@@ -45,7 +45,7 @@ RUN cat <<'EOF' > /usr/local/bin/send-to-loki.sh
 #!/bin/sh
 while read -r line; do
     timestamp=$(($(date +%s) * 1000000000))
-    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"job\":\"sites\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
+    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"level\":\"info\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
     curl -s -X POST -H "Content-Type: application/json" -d "$json" http://loki:3100/loki/api/v1/push
 done
 EOF
