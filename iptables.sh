@@ -15,8 +15,8 @@ if [ "$1" == "--deploy" ]; then
         root@"$SERVER_IP":/home/outsideworx/sites
     echo "Deployment starts: $SERVER_IP"
     ssh root@"$SERVER_IP" "
-        BLACKLIST_FILE='/home/outsideworx/sites/blacklist.txt'
-        CHAIN='APACHE_BLACKLIST'
+        BLACKLIST_FILE=\"/home/outsideworx/sites/blacklist.txt\"
+        CHAIN=\"APACHE_BLACKLIST\"
         if ! iptables -L \"\$CHAIN\" -n >/dev/null 2>&1; then
             iptables -N \"\$CHAIN\"
         fi
