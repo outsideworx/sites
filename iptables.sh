@@ -17,22 +17,17 @@ if [ "$1" == "--deploy" ]; then
     ssh root@"$SERVER_IP" "
         BLACKLIST_FILE='/home/outsideworx/sites/blacklist.txt'
         CHAIN='APACHE_BLACKLIST'
-
         if ! iptables -L \"\$CHAIN\" -n >/dev/null 2>&1; then
             iptables -N \"\$CHAIN\"
         fi
-
         iptables -F \"\$CHAIN\"
-
         if ! iptables -C INPUT -j \"\$CHAIN\" >/dev/null 2>&1; then
             iptables -I INPUT 1 -j \"\$CHAIN\"
         fi
-
         while IFS= read -r ip; do
             [ -z \"\$ip\" ] && continue
             iptables -A \"\$CHAIN\" -s \"\$ip\" -j DROP
         done < \"\$BLACKLIST_FILE\"
-
         iptables -L APACHE_BLACKLIST -n -v"
 else
     echo "Error: Only deploy mode is supported!"
