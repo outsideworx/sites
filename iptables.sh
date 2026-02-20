@@ -28,7 +28,7 @@ if [ "$1" == "--deploy" ]; then
             [ -z \"\$ip\" ] && continue
             iptables -A \"\$CHAIN\" -s \"\$ip\" -j DROP
         done < \"\$BLACKLIST_FILE\"
-        iptables -L APACHE_BLACKLIST -n -v"
+        iptables -L \"\$CHAIN\" -n -v"
 else
     echo "Error: Only deploy mode is supported!"
     exit 1
