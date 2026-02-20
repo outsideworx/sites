@@ -7,7 +7,6 @@ ARG NAME
 ARG TOKEN
 ENV NAME=${NAME}
 COPY --from=fetcher /site /usr/local/apache2/htdocs/
-COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
 
 RUN sed -i \
     -e 's|#LoadModule headers_module modules/mod_headers.so|LoadModule headers_module modules/mod_headers.so|' \
@@ -20,7 +19,6 @@ RUN sed -i \
     -e 's|#LoadModule socache_shmcb_module modules/mod_socache_shmcb.so|LoadModule socache_shmcb_module modules/mod_socache_shmcb.so|' \
     -e 's|#LoadModule unique_id_module modules/mod_unique_id.so|LoadModule unique_id_module modules/mod_unique_id.so|' \
     -e '/^Listen 80/d' \
-    -e '$aInclude conf/extra/blacklist.conf' \
     -e '$aInclude conf/extra/httpd-logs.conf' \
     -e '$aInclude conf/extra/httpd-metrics.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
