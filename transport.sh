@@ -11,6 +11,7 @@ if [ "$1" == "--deploy" ]; then
     echo "Uploading project: $SERVER_IP"
     rsync -rvh --delete \
         "$SCRIPT_DIR/.env" \
+        "$SCRIPT_DIR/blacklist.conf" \
         "$SCRIPT_DIR/compose.yaml" \
         "$SCRIPT_DIR/Dockerfile" \
         root@"$SERVER_IP":/home/outsideworx/sites
