@@ -72,12 +72,12 @@ services:
       - services_default
     ports:
       - "9006:80"
-  gogreengo:
+  thegreen:
     build:
       args:
-        NAME: gogreengo
+        NAME: thegreen
       dockerfile: Dockerfile.test
-    container_name: gogreengo
+    container_name: thegreen
     networks:
       - services_default
     ports:

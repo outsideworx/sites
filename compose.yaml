@@ -100,11 +100,11 @@ services:
     volumes:
       - *common-certificate
       - *common-certificate-private-key
-  gogreengo:
+  thegreen:
     build:
       args:
-        NAME: gogreengo
-    container_name: gogreengo
+        NAME: thegreen
+    container_name: thegreen
     networks:
       - services_default
     ports:
