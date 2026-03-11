@@ -69,8 +69,8 @@ ProxyPreserveHost On
 SSLProxyEngine On
 SSLProxyVerify none
 SSLProxyCheckPeerName off
-ProxyPass        "/api/"  "https://vault/api/"
-ProxyPassReverse "/api/"  "https://vault/api/"
+ProxyPass        "/api/"  "https://services/api/"
+ProxyPassReverse "/api/"  "https://services/api/"
 <IfModule mod_headers.c>
     RequestHeader set X-Auth-Token "${TOKEN}"
     RequestHeader set X-Caller-Id "${NAME}"
