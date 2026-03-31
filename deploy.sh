@@ -23,5 +23,7 @@ echo "Deployment starts"
 cd "$DEST"
 docker compose build --no-cache --pull
 docker compose up --force-recreate --no-deps -d
+echo "Sleep, to make sure everything is running"
+sleep 10
 docker system prune -af
 docker stats
