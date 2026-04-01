@@ -9,6 +9,22 @@ if [ "$1" == "--letsencrypt" ]; then
     exit 0
 fi
 
+if [ "$1" == "--install" ]; then
+    apt update
+    apt install -y openjdk-25-jdk maven docker.io
+    exit 0
+fi
+
+if [ -n "$1" ]; then
+    echo "Error: Unknown parameter '$1'"
+    exit 1
+fi
+
+if [ ! -f "$SCRIPT_DIR/.env" ]; then
+    echo "Error: .env file not found"
+    exit 1
+fi
+
 echo "Copying project files to: $DEST"
 rm -rf "$DEST"
 mkdir -p "$DEST"
