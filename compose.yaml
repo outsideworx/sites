@@ -10,8 +10,8 @@ services:
     container_name: come-in-and-find-out
     labels:
       - traefik.enable=true
-      - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`)
       - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
+      - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`)
       - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
       - traefik.http.services.come-in-and-find-out.loadbalancer.server.port=81
     networks:
@@ -24,8 +24,8 @@ services:
     container_name: duckumbrella
     labels:
       - traefik.enable=true
-      - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`)
       - traefik.http.routers.duckumbrella.entrypoints=websecure
+      - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`)
       - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
       - traefik.http.services.duckumbrella.loadbalancer.server.port=81
     networks:
@@ -39,8 +39,8 @@ services:
     container_name: gaiapeeps
     labels:
       - traefik.enable=true
-      - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`)
       - traefik.http.routers.gaiapeeps.entrypoints=websecure
+      - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`)
       - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
       - traefik.http.services.gaiapeeps.loadbalancer.server.port=81
     networks:
@@ -53,8 +53,8 @@ services:
     container_name: igli
     labels:
       - traefik.enable=true
-      - traefik.http.routers.igli.rule=Host(`igli.info`)
       - traefik.http.routers.igli.entrypoints=websecure
+      - traefik.http.routers.igli.rule=Host(`igli.info`)
       - traefik.http.routers.igli.tls.certresolver=letsencrypt
       - traefik.http.services.igli.loadbalancer.server.port=81
     networks:
@@ -67,8 +67,8 @@ services:
     container_name: outsideworx
     labels:
       - traefik.enable=true
-      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`)
       - traefik.http.routers.outsideworx.entrypoints=websecure
+      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`)
       - traefik.http.routers.outsideworx.tls.certresolver=letsencrypt
       - traefik.http.services.outsideworx.loadbalancer.server.port=81
     networks:
@@ -82,8 +82,8 @@ services:
     container_name: soupart
     labels:
       - traefik.enable=true
-      - traefik.http.routers.soupart.rule=Host(`soupart.net`)
       - traefik.http.routers.soupart.entrypoints=websecure
+      - traefik.http.routers.soupart.rule=Host(`soupart.net`)
       - traefik.http.routers.soupart.tls.certresolver=letsencrypt
       - traefik.http.services.soupart.loadbalancer.server.port=81
     networks:
@@ -96,8 +96,8 @@ services:
     container_name: soupkitchen
     labels:
       - traefik.enable=true
-      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`)
       - traefik.http.routers.soupkitchen.entrypoints=websecure
+      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`)
       - traefik.http.routers.soupkitchen.tls.certresolver=letsencrypt
       - traefik.http.services.soupkitchen.loadbalancer.server.port=81
     networks:
