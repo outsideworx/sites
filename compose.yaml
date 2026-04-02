@@ -1,7 +1,3 @@
-x-common-certificate: &common-certificate
-  ${SERVER_SSL_CERTIFICATE}:/usr/local/apache2/conf/fullchain.pem
-x-common-certificate-private-key: &common-certificate-private-key
-  ${SERVER_SSL_CERTIFICATE_PRIVATE_KEY}:/usr/local/apache2/conf/privkey.pem
 networks:
   services_default:
     external: true
@@ -12,94 +8,101 @@ services:
         NAME: come-in-and-find-out
         TOKEN: $APP_CLIENTS_CIAFO_TOKEN
     container_name: come-in-and-find-out
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`come-in-and-find-out.ch`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9000:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   duckumbrella:
     build:
       args:
         NAME: duckumbrella
     container_name: duckumbrella
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`duckumbrella.net`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9001:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   gaiapeeps:
     build:
       args:
         NAME: gaiapeeps
         TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     container_name: gaiapeeps
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`gaiapeeps.com`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9002:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   igli:
     build:
       args:
         NAME: igli
     container_name: igli
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`igli.info`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9003:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   outsideworx:
     build:
       args:
         NAME: outsideworx
     container_name: outsideworx
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`outsideworx.net`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9004:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   soupart:
     build:
       args:
         NAME: soupart
         TOKEN: $APP_CLIENTS_SOUP_TOKEN
     container_name: soupart
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`soupart.net`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9005:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   soupkitchen:
     build:
       args:
         NAME: soupkitchen
     container_name: soupkitchen
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`soupkitchen.info`)
+      - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls.certresolver=letsencrypt
+      - traefik.http.services.ntfy.loadbalancer.server.port=81
     networks:
       - services_default
-    ports:
-      - "9006:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
   thegreen:
     build:
       args:
@@ -107,9 +110,4 @@ services:
     container_name: thegreen
     networks:
       - services_default
-    ports:
-      - "9007:443"
     restart: unless-stopped
-    volumes:
-      - *common-certificate
-      - *common-certificate-private-key
