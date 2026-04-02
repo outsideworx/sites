@@ -8,77 +8,85 @@ services:
         NAME: come-in-and-find-out
       dockerfile: Dockerfile.test
     container_name: come-in-and-find-out
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.localhost`)
     networks:
       - services_default
-    ports:
-      - "9000:80"
   duckumbrella:
     build:
       args:
         NAME: duckumbrella
       dockerfile: Dockerfile.test
     container_name: duckumbrella
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.localhost`)
     networks:
       - services_default
-    ports:
-      - "9001:80"
   gaiapeeps:
     build:
       args:
         NAME: gaiapeeps
       dockerfile: Dockerfile.test
     container_name: gaiapeeps
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.localhost`)
     networks:
       - services_default
-    ports:
-      - "9002:80"
   igli:
     build:
       args:
         NAME: igli
       dockerfile: Dockerfile.test
     container_name: igli
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.igli.rule=Host(`igli.localhost`)
     networks:
       - services_default
-    ports:
-      - "9003:80"
   outsideworx:
     build:
       args:
         NAME: outsideworx
       dockerfile: Dockerfile.test
     container_name: outsideworx
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.localhost`)
     networks:
       - services_default
-    ports:
-      - "9004:80"
   soupart:
     build:
       args:
         NAME: soupart
       dockerfile: Dockerfile.test
     container_name: soupart
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.soupart.rule=Host(`soupart.localhost`)
     networks:
       - services_default
-    ports:
-      - "9005:80"
   soupkitchen:
     build:
       args:
         NAME: soupkitchen
       dockerfile: Dockerfile.test
     container_name: soupkitchen
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.localhost`)
     networks:
       - services_default
-    ports:
-      - "9006:80"
   thegreen:
     build:
       args:
         NAME: thegreen
       dockerfile: Dockerfile.test
     container_name: thegreen
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.thegreen.rule=Host(`thegreen.localhost`)
     networks:
       - services_default
-    ports:
-      - "9007:80"
