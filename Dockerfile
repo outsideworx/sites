@@ -99,6 +99,7 @@ ProxyPassReverse "/api/"  "http://services:81/api/"
             style-src           *       'unsafe-inline';"
     </IfModule>
     <IfModule mod_alias.c>
+        RedirectMatch 200 ^/\.well-known/acme-challenge/
         RedirectMatch 301 ^/grafana/?$  https://services.outsideworx.net/grafana
         RedirectMatch 301 ^/login/?$    https://services.outsideworx.net/login
         RedirectMatch 301 ^/ntfy/?$     https://services.outsideworx.net/ntfy
