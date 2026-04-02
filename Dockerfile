@@ -65,6 +65,16 @@ ProxyRequests Off
 ProxyPreserveHost On
 ProxyPass        "/api/"  "http://services:81/api/"
 ProxyPassReverse "/api/"  "http://services:81/api/"
+<IfModule mpm_event_module>
+    MaxRequestWorkers 100
+</IfModule>
+<IfModule mod_ratelimit.c>
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 1536
+</IfModule>
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=2-5,MinRate=2048 body=5-30,MinRate=4096
+</IfModule>
 <VirtualHost *:81>
     DocumentRoot "/usr/local/apache2/htdocs"
     <IfModule mod_headers.c>
@@ -96,16 +106,6 @@ ProxyPassReverse "/api/"  "http://services:81/api/"
         RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
         RedirectMatch 403 ^(?!/(robots)\.txt$).*\.txt/?$
         RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
-    </IfModule>
-    <IfModule mod_ratelimit.c>
-        SetOutputFilter RATE_LIMIT
-        SetEnv rate-limit 1536
-    </IfModule>
-    <IfModule mpm_event_module>
-        MaxRequestWorkers 100
-    </IfModule>
-    <IfModule reqtimeout_module>
-        RequestReadTimeout header=2-5,MinRate=2048 body=5-30,MinRate=4096
     </IfModule>
     <Directory "/usr/local/apache2/htdocs">
         Options +MultiViews
