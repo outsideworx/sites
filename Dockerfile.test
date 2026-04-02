@@ -48,8 +48,8 @@ RUN apt update -qq && apt install -y curl; \
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/" "http://host.docker.internal/api/"
-ProxyPassReverse "/api/" "http://host.docker.internal/api/"
+ProxyPass        "/api/" "http://host.docker.internal:81/api/"
+ProxyPassReverse "/api/" "http://host.docker.internal:81/api/"
 <IfModule mod_headers.c>
     RequestHeader set X-Auth-Token "test"
     RequestHeader set X-Caller-Id "${NAME}"
@@ -72,9 +72,9 @@ ProxyPassReverse "/api/" "http://host.docker.internal/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/grafana/?$  http://localhost/grafana
-    RedirectMatch 301 ^/login/?$    http://localhost/login
-    RedirectMatch 301 ^/ntfy/?$     http://localhost/ntfy
+    RedirectMatch 301 ^/grafana/?$  http://localhost:81/grafana
+    RedirectMatch 301 ^/login/?$    http://localhost:81/login
+    RedirectMatch 301 ^/ntfy/?$     http://localhost:81/ntfy
     RedirectMatch 403 /\.
     RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
     RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$

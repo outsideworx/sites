@@ -63,8 +63,8 @@ RUN cat <<EOF > conf/extra/httpd-proxy.conf
 Listen 81
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/"  "http://services/api/"
-ProxyPassReverse "/api/"  "http://services/api/"
+ProxyPass        "/api/"  "http://services:81/api/"
+ProxyPassReverse "/api/"  "http://services:81/api/"
 <VirtualHost *:81>
     DocumentRoot "/usr/local/apache2/htdocs"
     <IfModule mod_headers.c>
@@ -89,9 +89,9 @@ ProxyPassReverse "/api/"  "http://services/api/"
             style-src           *       'unsafe-inline';"
     </IfModule>
     <IfModule mod_alias.c>
-        RedirectMatch 301 ^/grafana/?$  https://grafana.outsideworx.net
-        RedirectMatch 301 ^/login/?$    https://oauth.outsideworx.net
-        RedirectMatch 301 ^/ntfy/?$     https://ntfy.outsideworx.net
+        RedirectMatch 301 ^/grafana/?$  https://services.outsideworx.net/grafana
+        RedirectMatch 301 ^/login/?$    https://services.outsideworx.net/login
+        RedirectMatch 301 ^/ntfy/?$     https://services.outsideworx.net/ntfy
         RedirectMatch 403 /\.
         RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
         RedirectMatch 403 ^(?!/(robots)\.txt$).*\.txt/?$
