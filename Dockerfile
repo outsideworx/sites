@@ -43,7 +43,7 @@ level=${1:-warn}
 while read -r line; do
     timestamp=$(($(date +%s) * 1000000000))
     json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
-    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://loki:3100/loki/api/v1/push
+    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://loki/loki/api/v1/push
 done
 EOF
 RUN apt update -qq && apt install -y curl; \
@@ -53,7 +53,7 @@ RUN cat <<EOF > conf/extra/httpd-metrics.conf
 Listen 80
 <VirtualHost *:80>
     DocumentRoot "/usr/local/apache2/htdocs"
-    <LocationMatch "^(?!/metrics)$">
+    <LocationMatch "^(?!/metrics$)">
         Require all denied
     </LocationMatch>
 </VirtualHost>
@@ -107,10 +107,10 @@ ProxyPassReverse "/api/"  "http://services:81/api/"
         RedirectMatch 403 ^(?!/(robots)\.txt$).*\.txt/?$
         RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
     </IfModule>
-    <Directory "/usr/local/apache2/htdocs">
-        Options +MultiViews
-    </Directory>
 </VirtualHost>
+<Directory "/usr/local/apache2/htdocs">
+    Options +MultiViews
+</Directory>
 EOF
 
 EXPOSE 80 81
