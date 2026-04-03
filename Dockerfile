@@ -53,7 +53,7 @@ RUN cat <<EOF > conf/extra/httpd-metrics.conf
 Listen 80
 <VirtualHost *:80>
     DocumentRoot "/usr/local/apache2/htdocs"
-    <LocationMatch "^(?!/metrics$)">
+    <LocationMatch "^(?!/metrics(\.txt)?$)">
         Require all denied
     </LocationMatch>
 </VirtualHost>
