@@ -99,9 +99,10 @@ ProxyPassReverse "/api/"  "http://services:81/api/"
             style-src           *       'unsafe-inline';"
     </IfModule>
     <IfModule mod_alias.c>
-        RedirectMatch 301 ^/grafana/?$  https://services.outsideworx.net/grafana
-        RedirectMatch 301 ^/login/?$    https://services.outsideworx.net/login
-        RedirectMatch 301 ^/ntfy/?$     https://services.outsideworx.net/ntfy
+        RedirectMatch 301 ^/clients/thegreen/?$   http://outsideworx.net:9007
+        RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
+        RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
+        RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
         RedirectMatch 403 /\.
         RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
         RedirectMatch 403 ^(?!/(robots)\.txt$).*\.txt/?$
