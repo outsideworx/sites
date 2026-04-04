@@ -1,12 +1,12 @@
 FROM bitnami/git AS fetcher
 ARG NAME
-RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /site
+RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /sites
 
 FROM httpd:2.4
 ARG NAME
 ARG TOKEN
 ENV NAME=${NAME}
-COPY --from=fetcher /site /usr/local/apache2/htdocs/
+COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
 
 RUN sed -i \
@@ -17,10 +17,8 @@ RUN sed -i \
     -e 's|#LoadModule ratelimit_module modules/mod_ratelimit.so|LoadModule ratelimit_module modules/mod_ratelimit.so|' \
     -e 's|#LoadModule reqtimeout_module modules/mod_reqtimeout.so|LoadModule reqtimeout_module modules/mod_reqtimeout.so|' \
     -e 's|#LoadModule unique_id_module modules/mod_unique_id.so|LoadModule unique_id_module modules/mod_unique_id.so|' \
-    -e '/^Listen 80/d' \
     -e '$aInclude conf/extra/blacklist.conf' \
     -e '$aInclude conf/extra/httpd-logs.conf' \
-    -e '$aInclude conf/extra/httpd-metrics.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
     conf/httpd.conf
 
@@ -49,24 +47,16 @@ EOF
 RUN apt update -qq && apt install -y curl; \
     chmod +x /usr/local/bin/send-to-loki.sh
 
-RUN cat <<EOF > conf/extra/httpd-metrics.conf
-Listen 80
-<VirtualHost *:80>
-    DocumentRoot "/usr/local/apache2/htdocs"
-    <LocationMatch "^(?!/metrics(\.txt)?$)">
-        Require all denied
-    </LocationMatch>
-</VirtualHost>
-EOF
-
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
-Listen 81
 ProxyRequests Off
 ProxyPreserveHost On
 ProxyPass        "/api/"  "http://services:81/api/"
 ProxyPassReverse "/api/"  "http://services:81/api/"
 <IfModule mpm_event_module>
-    MaxRequestWorkers 100
+    StartServers      2
+    MinSpareThreads   16
+    ThreadsPerChild   64
+    MaxRequestWorkers 128
 </IfModule>
 <IfModule mod_ratelimit.c>
     SetOutputFilter RATE_LIMIT
@@ -75,44 +65,41 @@ ProxyPassReverse "/api/"  "http://services:81/api/"
 <IfModule reqtimeout_module>
     RequestReadTimeout header=2-5,MinRate=2048 body=5-30,MinRate=4096
 </IfModule>
-<VirtualHost *:81>
-    DocumentRoot "/usr/local/apache2/htdocs"
-    <IfModule mod_headers.c>
-        RequestHeader set X-Auth-Token "${TOKEN}"
-        RequestHeader set X-Caller-Id "${NAME}"
-        RequestHeader set X-Request-Id "%{UNIQUE_ID}e"
-        Header always set X-Request-Id "%{UNIQUE_ID}e"
-        Header always set X-Content-Type-Options "nosniff"
-        Header always set X-Frame-Options "DENY"
-        Header always set Referrer-Policy "strict-origin-when-cross-origin"
-        Header always set Content-Security-Policy "         \
-            base-uri          'none';                       \
-            connect-src       'self';                       \
-            default-src       'none';                       \
-            font-src            *        https:;            \
-            frame-ancestors   'none';                       \
-            frame-src           *        https:;            \
-            form-action       'self';                       \
-            img-src           'self'     data:;             \
-            media-src           *        https:;            \
-            script-src          *       'unsafe-inline';    \
-            style-src           *       'unsafe-inline';"
-    </IfModule>
-    <IfModule mod_alias.c>
-        RedirectMatch 301 ^/clients/thegreen/?$   http://outsideworx.net:9007
-        RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
-        RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
-        RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
-        RedirectMatch 403 /\.
-        RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
-        RedirectMatch 403 ^(?!/(robots)\.txt$).*\.txt/?$
-        RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
-    </IfModule>
-</VirtualHost>
+<IfModule mod_headers.c>
+    RequestHeader set X-Auth-Token "${TOKEN}"
+    RequestHeader set X-Caller-Id "${NAME}"
+    RequestHeader set X-Request-Id "%{UNIQUE_ID}e"
+    Header always set X-Request-Id "%{UNIQUE_ID}e"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Content-Security-Policy "         \
+        base-uri          'none';                       \
+        connect-src       'self';                       \
+        default-src       'none';                       \
+        font-src            *        https:;            \
+        frame-ancestors   'none';                       \
+        frame-src           *        https:;            \
+        form-action       'self';                       \
+        img-src           'self'     data:;             \
+        media-src           *        https:;            \
+        script-src          *       'unsafe-inline';    \
+        style-src           *       'unsafe-inline';"
+</IfModule>
+<IfModule mod_alias.c>
+    RedirectMatch 301 ^/clients/thegreen/?$   http://outsideworx.net:9007
+    RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
+    RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
+    RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
+    RedirectMatch 403 /\.
+    RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
+    RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$
+    RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
+</IfModule>
 <Directory "/usr/local/apache2/htdocs">
     Options +MultiViews
 </Directory>
 EOF
 
-EXPOSE 80 81
+EXPOSE 80
 CMD ["httpd-foreground"]
