@@ -85,7 +85,7 @@ ProxyPassReverse "/api/" "http://host.docker.internal:81/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/clients/thegreen/?$   http://outsideworx.net:9007
+    RedirectMatch 301 ^/clients/thegreen/?$   http://localhost:9007
     RedirectMatch 301 ^/grafana/?$            http://localhost:81/grafana
     RedirectMatch 301 ^/login/?$              http://localhost:81/login
     RedirectMatch 301 ^/ntfy/?$               http://localhost:81/ntfy
