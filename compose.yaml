@@ -64,8 +64,12 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.entrypoints=websecure
-      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`)
+      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`) || Host(`www.outsideworx.net`)
       - traefik.http.routers.outsideworx.tls.certresolver=letsencrypt
+      - traefik.http.routers.outsideworx.middlewares=www-redirect
+      - traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\.(.+)
+      - traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}
+      - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
     networks:
       - services_default
     restart: unless-stopped
@@ -78,8 +82,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.entrypoints=websecure
-      - traefik.http.routers.soupart.rule=Host(`soupart.net`)
+      - traefik.http.routers.soupart.rule=Host(`soupart.net`) || Host(`www.soupart.net`)
       - traefik.http.routers.soupart.tls.certresolver=letsencrypt
+      - traefik.http.routers.soupart.middlewares=www-redirect
     networks:
       - services_default
     restart: unless-stopped
@@ -91,8 +96,9 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.entrypoints=websecure
-      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`)
+      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`) || Host(`www.soupkitchen.info`)
       - traefik.http.routers.soupkitchen.tls.certresolver=letsencrypt
+      - traefik.http.routers.soupkitchen.middlewares=www-redirect
     networks:
       - services_default
     restart: unless-stopped
