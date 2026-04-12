@@ -48,8 +48,8 @@ RUN apt update -qq && apt install -y curl; \
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/" "http://host.docker.internal:81/api/"
-ProxyPassReverse "/api/" "http://host.docker.internal:81/api/"
+ProxyPass        "/api/" "http://host.docker.internal:8080/api/"
+ProxyPassReverse "/api/" "http://host.docker.internal:8080/api/"
 <IfModule mpm_event_module>
     StartServers        1
     MinSpareThreads     4

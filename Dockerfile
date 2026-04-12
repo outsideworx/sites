@@ -50,8 +50,8 @@ RUN apt update -qq && apt install -y curl; \
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/"  "http://services:81/api/"
-ProxyPassReverse "/api/"  "http://services:81/api/"
+ProxyPass        "/api/"  "http://services/api/"
+ProxyPassReverse "/api/"  "http://services/api/"
 <IfModule mpm_event_module>
     StartServers      2
     MinSpareThreads   16
