@@ -15,12 +15,19 @@ RUN sed -i \
     -e 's|#LoadModule proxy_module modules/mod_proxy.so|LoadModule proxy_module modules/mod_proxy.so|' \
     -e 's|#LoadModule proxy_http_module modules/mod_proxy_http.so|LoadModule proxy_http_module modules/mod_proxy_http.so|' \
     -e 's|#LoadModule ratelimit_module modules/mod_ratelimit.so|LoadModule ratelimit_module modules/mod_ratelimit.so|' \
+    -e 's|#LoadModule remoteip_module modules/mod_remoteip.so|LoadModule remoteip_module modules/mod_remoteip.so|' \
     -e 's|#LoadModule reqtimeout_module modules/mod_reqtimeout.so|LoadModule reqtimeout_module modules/mod_reqtimeout.so|' \
     -e 's|#LoadModule unique_id_module modules/mod_unique_id.so|LoadModule unique_id_module modules/mod_unique_id.so|' \
     -e '$aInclude conf/extra/blacklist.conf' \
     -e '$aInclude conf/extra/httpd-logs.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
+    -e '$aInclude conf/extra/httpd-remoteip.conf' \
     conf/httpd.conf
+
+RUN cat <<EOF > conf/extra/httpd-remoteip.conf
+RemoteIPHeader X-Forwarded-For
+RemoteIPTrustedProxy 172.16.0.0/12
+EOF
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*CustomLog([[:space:]]|\\)/,/[^\\]$/d' \
