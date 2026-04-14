@@ -1,6 +1,7 @@
 FROM bitnami/git AS fetcher
 ARG NAME
 RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /sites
+RUN git -C /sites submodule update --init --depth 1
 
 FROM httpd:2.4
 ARG NAME
@@ -96,7 +97,6 @@ ProxyPassReverse "/api/"  "http://services/api/"
         style-src           *       'unsafe-inline';"
 </IfModule>
 <IfModule mod_alias.c>
-    RedirectMatch 301 ^/clients/thegreen/?$   https://services.outsideworx.net/clients/thegreen
     RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
     RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
     RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
@@ -107,6 +107,10 @@ ProxyPassReverse "/api/"  "http://services/api/"
 </IfModule>
 <Directory "/usr/local/apache2/htdocs">
     Options +MultiViews
+</Directory>
+<Directory "/usr/local/apache2/htdocs/clients">
+    Options +MultiViews
+    DirectoryIndex index.html
 </Directory>
 EOF
 
