@@ -116,13 +116,3 @@ services:
     networks:
       - outsideworx
     restart: unless-stopped
-  thegreen:
-    build:
-      args:
-        NAME: thegreen
-    container_name: thegreen
-    networks:
-      - outsideworx
-    ports:
-      - "9007:80"
-    restart: unless-stopped
