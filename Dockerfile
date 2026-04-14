@@ -26,7 +26,9 @@ RUN sed -i \
 
 RUN cat <<EOF > conf/extra/httpd-remoteip.conf
 RemoteIPHeader X-Forwarded-For
+RemoteIPTrustedProxy 10.0.0.0/8
 RemoteIPTrustedProxy 172.16.0.0/12
+RemoteIPTrustedProxy 192.168.0.0/16
 EOF
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
