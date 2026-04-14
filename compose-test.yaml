@@ -11,6 +11,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.localhost`)
+      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   duckumbrella:
@@ -22,6 +24,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.localhost`)
+      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   gaiapeeps:
@@ -33,6 +37,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.localhost`)
+      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   igli:
@@ -44,6 +50,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.igli.rule=Host(`igli.localhost`)
+      - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.igli.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   outsideworx:
@@ -55,6 +63,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.rule=Host(`outsideworx.localhost`)
+      - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   soupart:
@@ -66,6 +76,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.rule=Host(`soupart.localhost`)
+      - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.soupart.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   soupkitchen:
@@ -77,6 +89,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.localhost`)
+      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
   thegreen:
@@ -88,5 +102,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.thegreen.rule=Host(`thegreen.localhost`)
+      - traefik.http.services.thegreen.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.services.thegreen.loadbalancer.healthcheck.interval=5s
     networks:
       - services_default
