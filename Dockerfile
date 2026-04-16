@@ -51,7 +51,7 @@ level=${1:-warn}
 while read -r line; do
     timestamp=$(($(date +%s) * 1000000000))
     json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"job\":\"sites\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
-    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://loki/loki/api/v1/push
+    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://services_loki/loki/api/v1/push
 done
 EOF
 RUN apt update -qq && apt install -y curl; \
@@ -60,8 +60,8 @@ RUN apt update -qq && apt install -y curl; \
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/"  "http://services/api/"
-ProxyPassReverse "/api/"  "http://services/api/"
+ProxyPass        "/api/"  "http://services_services/api/"
+ProxyPassReverse "/api/"  "http://services_services/api/"
 <IfModule mpm_event_module>
     StartServers      2
     MinSpareThreads   16

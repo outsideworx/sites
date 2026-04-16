@@ -30,8 +30,6 @@ cd "$DEST"
 docker login
 docker compose build --no-cache --pull
 docker compose push
-docker compose up --force-recreate --no-deps -d
-echo "Sleep, to make sure everything is running."
-sleep 10
+docker stack deploy -c compose.yaml sites --detach=false
 docker system prune -af
 docker stats

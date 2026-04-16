@@ -7,119 +7,112 @@ services:
       args:
         NAME: come-in-and-find-out
         TOKEN: $APP_CLIENTS_CIAFO_TOKEN
-    container_name: come-in-and-find-out
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
+        - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`)
+        - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
+        - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
     image: outsideworx/come-in-and-find-out:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
-      - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`)
-      - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
-      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   duckumbrella:
     build:
       args:
         NAME: duckumbrella
-    container_name: duckumbrella
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.duckumbrella.entrypoints=websecure
+        - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`)
+        - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
+        - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
     image: outsideworx/duckumbrella:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.duckumbrella.entrypoints=websecure
-      - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`)
-      - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
-      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   gaiapeeps:
     build:
       args:
         NAME: gaiapeeps
         TOKEN: $APP_CLIENTS_PEEPS_TOKEN
-    container_name: gaiapeeps
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.gaiapeeps.entrypoints=websecure
+        - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`)
+        - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
+        - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
     image: outsideworx/gaiapeeps:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.gaiapeeps.entrypoints=websecure
-      - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`)
-      - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
-      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   igli:
     build:
       args:
         NAME: igli
-    container_name: igli
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.igli.entrypoints=websecure
+        - traefik.http.routers.igli.rule=Host(`igli.info`)
+        - traefik.http.routers.igli.tls.certresolver=letsencrypt
+        - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
     image: outsideworx/igli:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.igli.entrypoints=websecure
-      - traefik.http.routers.igli.rule=Host(`igli.info`)
-      - traefik.http.routers.igli.tls.certresolver=letsencrypt
-      - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   outsideworx:
     build:
       args:
         NAME: outsideworx
-    container_name: outsideworx
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.outsideworx.entrypoints=websecure
+        - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`) || Host(`www.outsideworx.net`)
+        - traefik.http.routers.outsideworx.tls.certresolver=letsencrypt
+        - traefik.http.routers.outsideworx.middlewares=www-redirect
+        - traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\.(.+)
+        - traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}
+        - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
+        - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
     image: outsideworx/outsideworx:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.outsideworx.entrypoints=websecure
-      - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`) || Host(`www.outsideworx.net`)
-      - traefik.http.routers.outsideworx.tls.certresolver=letsencrypt
-      - traefik.http.routers.outsideworx.middlewares=www-redirect
-      - traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\.(.+)
-      - traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}
-      - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
-      - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   soupart:
     build:
       args:
         NAME: soupart
         TOKEN: $APP_CLIENTS_SOUP_TOKEN
-    container_name: soupart
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.soupart.entrypoints=websecure
+        - traefik.http.routers.soupart.rule=Host(`soupart.net`) || Host(`www.soupart.net`)
+        - traefik.http.routers.soupart.tls.certresolver=letsencrypt
+        - traefik.http.routers.soupart.middlewares=www-redirect
+        - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
     image: outsideworx/soupart:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.soupart.entrypoints=websecure
-      - traefik.http.routers.soupart.rule=Host(`soupart.net`) || Host(`www.soupart.net`)
-      - traefik.http.routers.soupart.tls.certresolver=letsencrypt
-      - traefik.http.routers.soupart.middlewares=www-redirect
-      - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
   soupkitchen:
     build:
       args:
         NAME: soupkitchen
-    container_name: soupkitchen
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.soupkitchen.entrypoints=websecure
+        - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`) || Host(`www.soupkitchen.info`)
+        - traefik.http.routers.soupkitchen.tls.certresolver=letsencrypt
+        - traefik.http.routers.soupkitchen.middlewares=www-redirect
+        - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
     image: outsideworx/soupkitchen:latest
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.soupkitchen.entrypoints=websecure
-      - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`) || Host(`www.soupkitchen.info`)
-      - traefik.http.routers.soupkitchen.tls.certresolver=letsencrypt
-      - traefik.http.routers.soupkitchen.middlewares=www-redirect
-      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
-      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
     networks:
       - outsideworx
-    restart: unless-stopped
