@@ -15,6 +15,7 @@ services:
         - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.come-in-and-find-out.loadbalancer.server.port=80
     image: outsideworx/come-in-and-find-out:latest
     networks:
       - outsideworx
@@ -30,6 +31,7 @@ services:
         - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.duckumbrella.loadbalancer.server.port=80
     image: outsideworx/duckumbrella:latest
     networks:
       - outsideworx
@@ -46,6 +48,7 @@ services:
         - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.gaiapeeps.loadbalancer.server.port=80
     image: outsideworx/gaiapeeps:latest
     networks:
       - outsideworx
@@ -61,6 +64,7 @@ services:
         - traefik.http.routers.igli.tls.certresolver=letsencrypt
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.igli.loadbalancer.server.port=80
     image: outsideworx/igli:latest
     networks:
       - outsideworx
@@ -80,6 +84,7 @@ services:
         - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.outsideworx.loadbalancer.server.port=80
     image: outsideworx/outsideworx:latest
     networks:
       - outsideworx
@@ -97,6 +102,7 @@ services:
         - traefik.http.routers.soupart.middlewares=www-redirect
         - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.soupart.loadbalancer.server.port=80
     image: outsideworx/soupart:latest
     networks:
       - outsideworx
@@ -113,6 +119,7 @@ services:
         - traefik.http.routers.soupkitchen.middlewares=www-redirect
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.soupkitchen.loadbalancer.server.port=80
     image: outsideworx/soupkitchen:latest
     networks:
       - outsideworx
