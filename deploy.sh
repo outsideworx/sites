@@ -27,7 +27,9 @@ cp "$SCRIPT_DIR/.env" \
 
 echo "Container deployment starts."
 cd "$DEST"
+docker login
 docker compose build --no-cache --pull
+docker push
 docker compose up --force-recreate --no-deps -d
 echo "Sleep, to make sure everything is running."
 sleep 10

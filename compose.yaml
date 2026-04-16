@@ -8,6 +8,7 @@ services:
         NAME: come-in-and-find-out
         TOKEN: $APP_CLIENTS_CIAFO_TOKEN
     container_name: come-in-and-find-out
+    image: outsideworx/come-in-and-find-out:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
@@ -23,6 +24,7 @@ services:
       args:
         NAME: duckumbrella
     container_name: duckumbrella
+    image: outsideworx/duckumbrella:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.duckumbrella.entrypoints=websecure
@@ -39,6 +41,7 @@ services:
         NAME: gaiapeeps
         TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     container_name: gaiapeeps
+    image: outsideworx/gaiapeeps:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.gaiapeeps.entrypoints=websecure
@@ -54,6 +57,7 @@ services:
       args:
         NAME: igli
     container_name: igli
+    image: outsideworx/igli:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.igli.entrypoints=websecure
@@ -69,6 +73,7 @@ services:
       args:
         NAME: outsideworx
     container_name: outsideworx
+    image: outsideworx/outsideworx:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.entrypoints=websecure
@@ -89,6 +94,7 @@ services:
         NAME: soupart
         TOKEN: $APP_CLIENTS_SOUP_TOKEN
     container_name: soupart
+    image: outsideworx/soupart:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.entrypoints=websecure
@@ -105,6 +111,7 @@ services:
       args:
         NAME: soupkitchen
     container_name: soupkitchen
+    image: outsideworx/soupkitchen:latest
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.entrypoints=websecure
