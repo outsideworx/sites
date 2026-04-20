@@ -10,9 +10,11 @@ services:
     container_name: come-in-and-find-out
     labels:
       - traefik.enable=true
+      - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
       - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.localhost`)
-      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.come-in-and-find-out.tls=true
       - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   duckumbrella:
@@ -23,9 +25,11 @@ services:
     container_name: duckumbrella
     labels:
       - traefik.enable=true
+      - traefik.http.routers.duckumbrella.entrypoints=websecure
       - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.localhost`)
-      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.duckumbrella.tls=true
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   gaiapeeps:
@@ -36,9 +40,11 @@ services:
     container_name: gaiapeeps
     labels:
       - traefik.enable=true
+      - traefik.http.routers.gaiapeeps.entrypoints=websecure
       - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.localhost`)
-      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.gaiapeeps.tls=true
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   igli:
@@ -49,9 +55,11 @@ services:
     container_name: igli
     labels:
       - traefik.enable=true
+      - traefik.http.routers.igli.entrypoints=websecure
       - traefik.http.routers.igli.rule=Host(`igli.localhost`)
-      - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.igli.tls=true
       - traefik.http.services.igli.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   outsideworx:
@@ -62,9 +70,11 @@ services:
     container_name: outsideworx
     labels:
       - traefik.enable=true
+      - traefik.http.routers.outsideworx.entrypoints=websecure
       - traefik.http.routers.outsideworx.rule=Host(`outsideworx.localhost`)
-      - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.outsideworx.tls=true
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   soupart:
@@ -75,9 +85,11 @@ services:
     container_name: soupart
     labels:
       - traefik.enable=true
+      - traefik.http.routers.soupart.entrypoints=websecure
       - traefik.http.routers.soupart.rule=Host(`soupart.localhost`)
-      - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.soupart.tls=true
       - traefik.http.services.soupart.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
   soupkitchen:
@@ -88,8 +100,10 @@ services:
     container_name: soupkitchen
     labels:
       - traefik.enable=true
+      - traefik.http.routers.soupkitchen.entrypoints=websecure
       - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.localhost`)
-      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
+      - traefik.http.routers.soupkitchen.tls=true
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
