@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
   repository_dispatch:
-    types: [build-site]
+    types: [build]
 
 jobs:
-  build-all:
+  build-sites:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
@@ -30,7 +30,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DISPATCH_TOKEN }}
 
       - uses: docker/build-push-action@v6
         with:
@@ -39,7 +39,7 @@ jobs:
           tags: ghcr.io/outsideworx/${{ matrix.name }}:latest
           build-args: NAME=${{ matrix.name }}
 
-  build-one:
+  build:
     if: github.event_name == 'repository_dispatch'
     runs-on: ubuntu-latest
     permissions:
@@ -52,7 +52,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.DISPATCH_TOKEN }}
 
       - uses: docker/build-push-action@v6
         with:
