@@ -16,7 +16,7 @@ if [ -n "$1" ]; then
     exit 1
 fi
 
-echo "Copying project files to: $DEST."
+echo "Copying project files to: $DEST"
 rm -rf "$DEST"
 mkdir -p "$DEST"
 cp "$SCRIPT_DIR/.env" \
@@ -24,9 +24,8 @@ cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/compose.yaml" \
    "$DEST"
 
-echo "Container deployment starts."
+echo "Container deployment starts"
 cd "$DEST"
 docker login ghcr.io
 docker stack deploy -c compose.yaml sites --detach=false
-docker system prune -af
 docker stats
