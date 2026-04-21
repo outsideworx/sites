@@ -5,7 +5,6 @@ RUN git -C /sites submodule update --init --depth 1
 
 FROM httpd:2.4
 ARG NAME
-ARG TOKEN
 ENV NAME=${NAME}
 COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
@@ -58,6 +57,8 @@ RUN apt update -qq && apt install -y curl; \
     chmod +x /usr/local/bin/send-to-loki.sh
 
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
+PassEnv TOKEN
+
 ProxyRequests Off
 ProxyPreserveHost On
 ProxyPass        "/api/"  "http://services_services/api/"

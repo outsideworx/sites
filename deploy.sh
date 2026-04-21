@@ -7,7 +7,7 @@ set -e
 
 if [ "$1" == "--install" ]; then
     apt update
-    apt install -y openjdk-25-jdk maven docker.io
+    apt install -y docker-compose-v2
     exit 0
 fi
 
@@ -16,20 +16,17 @@ if [ -n "$1" ]; then
     exit 1
 fi
 
-echo "Copying standalone project files to: $DEST."
+echo "Copying project files to: $DEST."
 rm -rf "$DEST"
 mkdir -p "$DEST"
 cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/blacklist.conf" \
    "$SCRIPT_DIR/compose.yaml" \
-   "$SCRIPT_DIR/Dockerfile" \
    "$DEST"
 
 echo "Container deployment starts."
 cd "$DEST"
-docker login
-docker compose build --no-cache --pull
-docker compose push
+docker login ghcr.io
 docker stack deploy -c compose.yaml sites --detach=false
 docker system prune -af
 docker stats
