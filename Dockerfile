@@ -25,7 +25,7 @@ RUN sed -i \
     -e '$aInclude conf/extra/httpd-remoteip.conf' \
     conf/httpd.conf
 
-RUN cat <<EOF > conf/extra/httpd-remoteip.conf
+RUN cat <<'EOF' > conf/extra/httpd-remoteip.conf
 RemoteIPHeader X-Forwarded-For
 RemoteIPTrustedProxy 10.0.0.0/8
 RemoteIPTrustedProxy 172.16.0.0/12
@@ -58,7 +58,7 @@ RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*ErrorLog/d' \
     -e '/^[[:space:]]*TransferLog/d' {} +
 
-RUN cat <<EOF > conf/extra/httpd-logs.conf
+RUN cat <<'EOF' > conf/extra/httpd-logs.conf
 ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
 ErrorLog "|/usr/local/bin/send-to-loki.sh error"
 LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
@@ -66,7 +66,7 @@ SetEnvIf Request_URI "^/metrics$" no_log
 CustomLog "|/usr/local/bin/send-to-loki.sh info" log_format env=!no_log
 EOF
 
-RUN cat <<EOF > conf/extra/httpd-proxy.conf
+RUN cat <<'EOF' > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
 ProxyPass        "/api/"  "http://services_services/api/"
