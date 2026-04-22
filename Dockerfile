@@ -20,9 +20,9 @@ RUN sed -i \
     -e 's|#LoadModule unique_id_module modules/mod_unique_id.so|LoadModule unique_id_module modules/mod_unique_id.so|' \
     -e '$aInclude conf/extra/blacklist.conf' \
     -e '$aInclude conf/extra/httpd-logs.conf' \
+    -e '$aInclude conf/extra/httpd-token.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
     -e '$aInclude conf/extra/httpd-remoteip.conf' \
-    -e '$aInclude conf/extra/httpd-token.conf' \
     conf/httpd.conf
 
 RUN cat <<EOF > conf/extra/httpd-remoteip.conf
