@@ -21,6 +21,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            [ -d src/sites ] || git clone https://github.com/outsideworx/sites.git src/sites
             cd src/sites
+            [ -f .env ] || echo "${{ secrets.ENV }}" > .env
             git pull
             bash deploy.sh ${{ github.event.inputs.flags }}
