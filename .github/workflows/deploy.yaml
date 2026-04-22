@@ -1,6 +1,11 @@
 name: Deploy
 on:
   workflow_dispatch:
+    inputs:
+      flags:
+        description: 'Optional flags to pass to deploy.sh (e.g. --install)'
+        required: false
+        default: ''
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -14,4 +19,4 @@ jobs:
           script: |
             cd src/sites
             git pull
-            bash deploy.sh
+            bash deploy.sh ${{ github.event.inputs.flags }}
