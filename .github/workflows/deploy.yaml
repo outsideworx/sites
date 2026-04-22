@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       flags:
-        description: 'Optional flags to pass to deploy.sh (e.g. --install)'
+        description: 'Flags to pass to deploy.sh'
         required: false
         default: ''
 jobs:
