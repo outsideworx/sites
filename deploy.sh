@@ -26,4 +26,5 @@ cp "$SCRIPT_DIR/.env" \
 
 echo "Container deployment starts"
 cd "$DEST"
+set -a; source .env; set +a
 docker stack deploy -c compose.yaml sites --detach=false

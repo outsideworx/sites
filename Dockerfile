@@ -26,11 +26,32 @@ RUN sed -i \
     conf/httpd.conf
 
 RUN cat <<EOF > conf/extra/httpd-remoteip.conf
-    RemoteIPHeader X-Forwarded-For
-    RemoteIPTrustedProxy 10.0.0.0/8
-    RemoteIPTrustedProxy 172.16.0.0/12
-    RemoteIPTrustedProxy 192.168.0.0/16
+RemoteIPHeader X-Forwarded-For
+RemoteIPTrustedProxy 10.0.0.0/8
+RemoteIPTrustedProxy 172.16.0.0/12
+RemoteIPTrustedProxy 192.168.0.0/16
 EOF
+
+RUN cat <<'EOF' > /usr/local/bin/send-to-loki.sh
+#!/bin/sh
+level=${1:-warn}
+while read -r line; do
+    timestamp=$(($(date +%s) * 1000000000))
+    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"job\":\"sites\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
+    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://services_loki/loki/api/v1/push
+done
+EOF
+
+RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
+#!/bin/sh
+echo "SetEnv TOKEN ${TOKEN}" > /usr/local/apache2/conf/extra/httpd-token.conf
+exec httpd-foreground
+EOF
+
+RUN apt update -qq && apt install -y curl;          \
+    chmod +x /usr/local/bin/docker-entrypoint.sh    \
+             /usr/local/bin/send-to-loki.sh
+
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*CustomLog([[:space:]]|\\)/,/[^\\]$/d' \
@@ -38,88 +59,68 @@ RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*TransferLog/d' {} +
 
 RUN cat <<EOF > conf/extra/httpd-logs.conf
-    ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
-    ErrorLog "|/usr/local/bin/send-to-loki.sh error"
-    LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
-    SetEnvIf Request_URI "^/metrics$" no_log
-    CustomLog "|/usr/local/bin/send-to-loki.sh info" log_format env=!no_log
+ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
+ErrorLog "|/usr/local/bin/send-to-loki.sh error"
+LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
+SetEnvIf Request_URI "^/metrics$" no_log
+CustomLog "|/usr/local/bin/send-to-loki.sh info" log_format env=!no_log
 EOF
-
-RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
-    #!/bin/sh
-    echo "SetEnv TOKEN ${TOKEN}" > /usr/local/apache2/conf/extra/httpd-token.conf
-    exec httpd-foreground
-EOF
-
-RUN cat <<'EOF' > /usr/local/bin/send-to-loki.sh
-    #!/bin/sh
-    level=${1:-warn}
-    while read -r line; do
-        timestamp=$(($(date +%s) * 1000000000))
-        json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"job\":\"sites\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
-        curl -s -X POST -H "Content-Type: application/json" -d "$json" http://services_loki/loki/api/v1/push
-    done
-EOF
-
-RUN apt update -qq && apt install -y curl;          \
-    chmod +x /usr/local/bin/docker-entrypoint.sh    \
-             /usr/local/bin/send-to-loki.sh
 
 RUN cat <<EOF > conf/extra/httpd-proxy.conf
-    ProxyRequests Off
-    ProxyPreserveHost On
-    ProxyPass        "/api/"  "http://services_services/api/"
-    ProxyPassReverse "/api/"  "http://services_services/api/"
-    <IfModule mpm_event_module>
-        StartServers      2
-        MinSpareThreads   16
-        ThreadsPerChild   64
-        MaxRequestWorkers 128
-    </IfModule>
-    <IfModule mod_ratelimit.c>
-        SetOutputFilter RATE_LIMIT
-        SetEnv rate-limit 1536
-    </IfModule>
-    <IfModule reqtimeout_module>
-        RequestReadTimeout header=2-5,MinRate=2048 body=5-30,MinRate=4096
-    </IfModule>
-    <IfModule mod_headers.c>
-        RequestHeader set X-Auth-Token "${TOKEN}"
-        RequestHeader set X-Caller-Id "${NAME}"
-        RequestHeader set X-Request-Id "%{UNIQUE_ID}e"
-        Header always set X-Request-Id "%{UNIQUE_ID}e"
-        Header always set X-Content-Type-Options "nosniff"
-        Header always set X-Frame-Options "DENY"
-        Header always set Referrer-Policy "strict-origin-when-cross-origin"
-        Header always set Content-Security-Policy "         \
-            base-uri          'none';                       \
-            connect-src       'self';                       \
-            default-src       'none';                       \
-            font-src            *        https:;            \
-            frame-ancestors   'none';                       \
-            frame-src           *        https:;            \
-            form-action       'self';                       \
-            img-src           'self'     data:;             \
-            media-src           *        https:;            \
-            script-src          *       'unsafe-inline';    \
-            style-src           *       'unsafe-inline';"
-    </IfModule>
-    <IfModule mod_alias.c>
-        RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
-        RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
-        RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
-        RedirectMatch 403 /\.
-        RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
-        RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$
-        RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
-    </IfModule>
-    <Directory "/usr/local/apache2/htdocs">
-        Options +MultiViews
-    </Directory>
-    <Directory "/usr/local/apache2/htdocs/clients">
-        Options +MultiViews
-        DirectoryIndex index.html
-    </Directory>
+ProxyRequests Off
+ProxyPreserveHost On
+ProxyPass        "/api/"  "http://services_services/api/"
+ProxyPassReverse "/api/"  "http://services_services/api/"
+<IfModule mpm_event_module>
+    StartServers      2
+    MinSpareThreads   16
+    ThreadsPerChild   64
+    MaxRequestWorkers 128
+</IfModule>
+<IfModule mod_ratelimit.c>
+    SetOutputFilter RATE_LIMIT
+    SetEnv rate-limit 1536
+</IfModule>
+<IfModule reqtimeout_module>
+    RequestReadTimeout header=2-5,MinRate=2048 body=5-30,MinRate=4096
+</IfModule>
+<IfModule mod_headers.c>
+    RequestHeader set X-Auth-Token "${TOKEN}"
+    RequestHeader set X-Caller-Id "${NAME}"
+    RequestHeader set X-Request-Id "%{UNIQUE_ID}e"
+    Header always set X-Request-Id "%{UNIQUE_ID}e"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Content-Security-Policy "         \
+        base-uri          'none';                       \
+        connect-src       'self';                       \
+        default-src       'none';                       \
+        font-src            *        https:;            \
+        frame-ancestors   'none';                       \
+        frame-src           *        https:;            \
+        form-action       'self';                       \
+        img-src           'self'     data:;             \
+        media-src           *        https:;            \
+        script-src          *       'unsafe-inline';    \
+        style-src           *       'unsafe-inline';"
+</IfModule>
+<IfModule mod_alias.c>
+    RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
+    RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
+    RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
+    RedirectMatch 403 /\.
+    RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
+    RedirectMatch 403 ^(?!/(metrics|robots)\.txt$).*\.txt/?$
+    RedirectMatch 403 ^(?!/(sitemap)\.xml$).*\.xml/?$
+</IfModule>
+<Directory "/usr/local/apache2/htdocs">
+    Options +MultiViews
+</Directory>
+<Directory "/usr/local/apache2/htdocs/clients">
+    Options +MultiViews
+    DirectoryIndex index.html
+</Directory>
 EOF
 
 EXPOSE 80
