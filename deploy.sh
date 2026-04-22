@@ -28,4 +28,3 @@ echo "Container deployment starts"
 cd "$DEST"
 docker login ghcr.io
 docker stack deploy -c compose.yaml sites --detach=false
-docker stats
