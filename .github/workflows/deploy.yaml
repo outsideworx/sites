@@ -2,6 +2,10 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
+      host:
+        description: 'SSH host to deploy to'
+        required: true
+        default: 'services.outsideworx.net'
       flags:
         description: 'Flags to pass to deploy.sh'
         required: false
@@ -13,7 +17,7 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: services.outsideworx.net
+          host: ${{ github.event.inputs.host }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
