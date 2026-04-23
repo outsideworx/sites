@@ -21,6 +21,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
             [ -d src/sites ] || git clone https://github.com/outsideworx/sites.git src/sites
             cd src/sites
             [ -f .env ] || echo "${{ secrets.ENV }}" > .env
