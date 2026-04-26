@@ -98,7 +98,7 @@ ProxyPassReverse "/api/" "http://host.docker.internal:8080/api/"
 </IfModule>
 <IfModule mod_alias.c>
     RedirectMatch 301 ^/grafana/?$            http://localhost:8080/grafana
-    RedirectMatch 301 ^/login/?$              http://localhost:8080/login
+    RedirectMatch 301 ^/login/?$              http://localhost:8080
     RedirectMatch 301 ^/ntfy/?$               http://localhost:8080/ntfy
     RedirectMatch 403 /\.
     RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$

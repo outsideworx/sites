@@ -107,7 +107,7 @@ ProxyPassReverse "/api/"  "http://services_services/api/"
 </IfModule>
 <IfModule mod_alias.c>
     RedirectMatch 301 ^/grafana/?$            https://services.outsideworx.net/grafana
-    RedirectMatch 301 ^/login/?$              https://services.outsideworx.net/login
+    RedirectMatch 301 ^/login/?$              https://services.outsideworx.net
     RedirectMatch 301 ^/ntfy/?$               https://services.outsideworx.net/ntfy
     RedirectMatch 403 /\.
     RedirectMatch 403 \.(bak|conf|config|env|ini|json|key|log|properties|php|pub|py|sh|ts|yaml|yml|zip)/?$
