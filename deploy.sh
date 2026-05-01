@@ -16,7 +16,6 @@ if [ -n "$1" ]; then
     exit 1
 fi
 
-echo "Copying project files to: $DEST"
 rm -rf "$DEST"
 mkdir -p "$DEST"
 cp "$SCRIPT_DIR/.env" \
@@ -24,7 +23,6 @@ cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/compose.yaml" \
    "$DEST"
 
-echo "Container deployment starts"
 cd "$DEST"
 set -a; source .env; set +a
 docker stack deploy -c compose.yaml sites --detach=false --resolve-image=always
