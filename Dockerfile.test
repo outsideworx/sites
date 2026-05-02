@@ -37,9 +37,9 @@ RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*TransferLog/d' {} +
 
 RUN cat <<'EOF' > conf/extra/httpd-logs.conf
-ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
+ErrorLogFormat "ERROR %P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
 ErrorLog /proc/self/fd/2
-LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
+LogFormat "INFO %P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
 SetEnvIf Request_URI "^/metrics$" no_log
 CustomLog /proc/self/fd/1 log_format env=!no_log
 EOF
