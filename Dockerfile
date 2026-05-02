@@ -32,26 +32,11 @@ RemoteIPTrustedProxy 172.16.0.0/12
 RemoteIPTrustedProxy 192.168.0.0/16
 EOF
 
-RUN cat <<'EOF' > /usr/local/bin/send-to-loki.sh
-#!/bin/sh
-level=${1:-warn}
-while read -r line; do
-    timestamp=$(($(date +%s) * 1000000000))
-    json="{\"streams\":[{\"stream\":{\"app\":\"${NAME}\",\"job\":\"sites\",\"level\":\"$level\"},\"values\":[[\"$timestamp\",\"$line\"]]}]}"
-    curl -s -X POST -H "Content-Type: application/json" -d "$json" http://services_loki/loki/api/v1/push
-done
-EOF
-
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
 echo "SetEnv TOKEN ${TOKEN}" > /usr/local/apache2/conf/extra/httpd-token.conf
 exec httpd-foreground
 EOF
-
-RUN apt update -qq && apt install -y curl;          \
-    chmod +x /usr/local/bin/docker-entrypoint.sh    \
-             /usr/local/bin/send-to-loki.sh
-
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*CustomLog([[:space:]]|\\)/,/[^\\]$/d' \
@@ -60,10 +45,10 @@ RUN find conf -type f -name '*.conf' -exec sed -i -E \
 
 RUN cat <<'EOF' > conf/extra/httpd-logs.conf
 ErrorLogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %M"
-ErrorLog "|/usr/local/bin/send-to-loki.sh error"
+ErrorLog /proc/self/fd/2
 LogFormat "%P --- ip=%a requestId=%{UNIQUE_ID}e: %r %>s" log_format
 SetEnvIf Request_URI "^/metrics$" no_log
-CustomLog "|/usr/local/bin/send-to-loki.sh info" log_format env=!no_log
+CustomLog /proc/self/fd/1 log_format env=!no_log
 EOF
 
 RUN cat <<'EOF' > conf/extra/httpd-proxy.conf
@@ -124,4 +109,4 @@ ProxyPassReverse "/api/"  "http://services_services/api/"
 EOF
 
 EXPOSE 80
-CMD ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["sh", "/usr/local/bin/docker-entrypoint.sh"]
