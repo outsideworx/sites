@@ -26,3 +26,4 @@ cp "$SCRIPT_DIR/.env" \
 cd "$DEST"
 set -a; source .env; set +a
 docker stack deploy -c compose.yaml sites --detach=false --resolve-image=always
+docker stack services sites --format '{{.Name}}' | xargs -I{} docker service update --force {}
