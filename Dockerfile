@@ -58,8 +58,8 @@ EOF
 RUN cat <<'EOF' > conf/extra/httpd-proxy.conf
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPass        "/api/"  "http://services_services/api/"
-ProxyPassReverse "/api/"  "http://services_services/api/"
+ProxyPass        "/api/"  "http://services-services/api/"
+ProxyPassReverse "/api/"  "http://services-services/api/"
 <IfModule mpm_event_module>
     StartServers      2
     MinSpareThreads   16
