@@ -59,14 +59,15 @@ function get_form(err)
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#111;color:#eee;font-family:sans-serif}
 form{text-align:center}
 input[type=password]{padding:.5em;font-size:1em;border:1px solid #555;border-radius:4px;background:#222;color:#eee}
-button{padding:.5em 1.5em;font-size:1em;border:none;border-radius:4px;background:#2ecc71;color:#111;cursor:pointer;margin-top:.5em}
+button{padding:.5em 1.5em;font-size:1em;border:none;border-radius:4px;background:#00b2ff;color:#111;cursor:pointer;margin-top:1em}
 </style>
 </head>
 <body>
 <form method="POST">
 ]] .. error_html .. [[
 <input type="password" name="password" placeholder="Enter secret" autofocus>
-<br><button type="submit">Enter</button>
+<br>
+<button type="submit">Enter</button>
 </form>
 </body>
 </html>]]
