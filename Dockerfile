@@ -34,11 +34,7 @@ EOF
 
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
-if [ -n "${TOKEN}" ]; then
-    echo "SetEnv TOKEN ${TOKEN}" > /usr/local/apache2/conf/extra/httpd-token.conf
-else
-    touch /usr/local/apache2/conf/extra/httpd-token.conf
-fi
+echo "Define TOKEN ${TOKEN:-none}" > /usr/local/apache2/conf/extra/httpd-token.conf
 exec httpd-foreground
 EOF
 
