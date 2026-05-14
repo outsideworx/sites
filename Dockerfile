@@ -8,9 +8,11 @@ ARG NAME
 ENV NAME=${NAME}
 COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
+COPY gate.lua.tpl /usr/local/apache2/conf/gate.lua.tpl
 
 RUN sed -i \
     -e 's|#LoadModule headers_module modules/mod_headers.so|LoadModule headers_module modules/mod_headers.so|' \
+    -e 's|#LoadModule lua_module modules/mod_lua.so|LoadModule lua_module modules/mod_lua.so|' \
     -e 's|#LoadModule negotiation_module modules/mod_negotiation.so|LoadModule negotiation_module modules/mod_negotiation.so|' \
     -e 's|#LoadModule proxy_module modules/mod_proxy.so|LoadModule proxy_module modules/mod_proxy.so|' \
     -e 's|#LoadModule proxy_http_module modules/mod_proxy_http.so|LoadModule proxy_http_module modules/mod_proxy_http.so|' \
@@ -19,6 +21,7 @@ RUN sed -i \
     -e 's|#LoadModule reqtimeout_module modules/mod_reqtimeout.so|LoadModule reqtimeout_module modules/mod_reqtimeout.so|' \
     -e 's|#LoadModule unique_id_module modules/mod_unique_id.so|LoadModule unique_id_module modules/mod_unique_id.so|' \
     -e '$aInclude conf/extra/blacklist.conf' \
+    -e '$aInclude conf/extra/httpd-auth.conf' \
     -e '$aInclude conf/extra/httpd-logs.conf' \
     -e '$aInclude conf/extra/httpd-token.conf' \
     -e '$aInclude conf/extra/httpd-proxy.conf' \
@@ -35,8 +38,21 @@ EOF
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
 echo "Define TOKEN ${TOKEN:-none}" > /usr/local/apache2/conf/extra/httpd-token.conf
+if [ -n "${GATE_PASSWORD}" ]; then
+    sed -e "s|{{GATE_PASSWORD}}|${GATE_PASSWORD}|g" \
+        -e "s|{{GATE_PATH}}|${GATE_PATH:-/}|g" \
+        /usr/local/apache2/conf/gate.lua.tpl > /usr/local/apache2/conf/gate.lua
+    cat <<AUTHCONF > /usr/local/apache2/conf/extra/httpd-auth.conf
+<Location "${GATE_PATH:-/}">
+    LuaHookAccessChecker /usr/local/apache2/conf/gate.lua check_access
+</Location>
+AUTHCONF
+else
+    echo "# No auth" > /usr/local/apache2/conf/extra/httpd-auth.conf
+fi
 exec httpd-foreground
 EOF
+RUN echo "# No auth" > conf/extra/httpd-auth.conf
 
 RUN find conf -type f -name '*.conf' -exec sed -i -E \
     -e '/^[[:space:]]*CustomLog([[:space:]]|\\)/,/[^\\]$/d' \

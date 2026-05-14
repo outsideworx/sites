@@ -73,6 +73,9 @@ services:
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.outsideworx.loadbalancer.server.port=80
       mode: global
+    environment:
+      GATE_PASSWORD: $GATE_PASSWORD_THEGREEN
+      GATE_PATH: /clients/thegreen/
     image: ghcr.io/outsideworx/outsideworx:latest
     networks:
       - outsideworx
