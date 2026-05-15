@@ -69,8 +69,8 @@ services:
       dockerfile: Dockerfile.test
     container_name: outsideworx
     environment:
-      GATE_PASSWORD: green007
-      GATE_PATH: /clients/thegreen/
+      CLIENT_SECRET: green007
+      CLIENT_SECRET_PATH: /clients/thegreen/
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.entrypoints=websecure

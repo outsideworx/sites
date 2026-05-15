@@ -8,7 +8,7 @@ ARG NAME
 ENV NAME=${NAME}
 COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
-COPY gate.lua.tpl /usr/local/apache2/conf/gate.lua.tpl
+COPY secret.lua.tpl /usr/local/apache2/conf/secret.lua.tpl
 
 RUN sed -i \
     -e 's|#LoadModule headers_module modules/mod_headers.so|LoadModule headers_module modules/mod_headers.so|' \
@@ -38,13 +38,13 @@ EOF
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
 echo "Define TOKEN ${TOKEN:-none}" > /usr/local/apache2/conf/extra/httpd-token.conf
-if [ -n "${GATE_PASSWORD}" ]; then
-    sed -e "s|{{GATE_PASSWORD}}|${GATE_PASSWORD}|g" \
-        -e "s|{{GATE_PATH}}|${GATE_PATH:-/}|g" \
-        /usr/local/apache2/conf/gate.lua.tpl > /usr/local/apache2/conf/gate.lua
+if [ -n "${CLIENT_SECRET}" ]; then
+    sed -e "s|{{CLIENT_SECRET}}|${CLIENT_SECRET}|g" \
+        -e "s|{{CLIENT_SECRET_PATH}}|${CLIENT_SECRET_PATH:-/}|g" \
+        /usr/local/apache2/conf/secret.lua.tpl > /usr/local/apache2/conf/secret.lua
     cat <<AUTHCONF > /usr/local/apache2/conf/extra/httpd-auth.conf
-<Location "${GATE_PATH:-/}">
-    LuaHookAccessChecker /usr/local/apache2/conf/gate.lua check_access
+<Location "${CLIENT_SECRET_PATH:-/}">
+    LuaHookAccessChecker /usr/local/apache2/conf/secret.lua check_access
 </Location>
 AUTHCONF
 else

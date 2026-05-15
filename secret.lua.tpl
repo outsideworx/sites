@@ -1,5 +1,5 @@
-local password = "{{GATE_PASSWORD}}"
-local gate_path = "{{GATE_PATH}}"
+local password = "{{CLIENT_SECRET}}"
+local gate_path = "{{CLIENT_SECRET_PATH}}"
 local cookie_name = "gate_token"
 local cookie_value = "granted"
 
@@ -69,7 +69,7 @@ button{padding:.5em 1.5em;font-size:1em;border:none;border-radius:4px;background
 <h1>Outside Worx</h1>
 <p class="hint">Please provide your client secret to continue.</p>
 ]] .. error_html .. [[
-<input type="password" name="password" placeholder="Client secret" autofocus>
+<input type="password" name="password" autofocus>
 <br>
 <button type="submit">Enter</button>
 </form>
