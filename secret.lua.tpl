@@ -4,14 +4,14 @@ local cookie_name = "gate_token"
 local cookie_value = "granted"
 
 function check_access(r)
-    if r.uri == gate_path .. "gate" then
+    if r.uri == gate_path .. "secret" then
         return handle_gate(r)
     end
     local cookies = r.headers_in["Cookie"] or ""
     if cookies:match(cookie_name .. "=" .. cookie_value) then
         return apache2.DECLINED
     end
-    r.headers_out["Location"] = gate_path .. "gate"
+    r.headers_out["Location"] = gate_path .. "secret"
     r.status = 302
     return apache2.DONE
 end
@@ -35,7 +35,7 @@ function handle_gate(r)
         end
         r.status = 200
         r.content_type = "text/html"
-        r:write(get_form("Incorrect password"))
+        r:write(get_form("Incorrect secret"))
         return apache2.DONE
     end
     r.status = 200
@@ -54,7 +54,7 @@ function get_form(err)
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Access</title>
+<title>Login - Outside Worx</title>
 <style>
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#111;color:#eee;font-family:sans-serif}
 .card{text-align:center;background:#1a1a1a;padding:2.5em;border-radius:8px;border:1px solid #333;min-width:300px}
