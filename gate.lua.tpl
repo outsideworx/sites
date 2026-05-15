@@ -57,15 +57,19 @@ function get_form(err)
 <title>Access</title>
 <style>
 body{display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#111;color:#eee;font-family:sans-serif}
-form{text-align:center}
-input[type=password]{padding:.5em;font-size:1em;border:1px solid #555;border-radius:4px;background:#222;color:#eee}
+.card{text-align:center;background:#1a1a1a;padding:2.5em;border-radius:8px;border:1px solid #333;min-width:300px}
+h1{margin:0 0 .5em;font-size:1.5em;font-weight:600}
+p.hint{color:#999;margin:0 0 1.5em;font-size:.9em}
+input[type=password]{padding:.5em;font-size:1em;border:1px solid #555;border-radius:4px;background:#222;color:#eee;width:100%;box-sizing:border-box}
 button{padding:.5em 1.5em;font-size:1em;border:none;border-radius:4px;background:#00b2ff;color:#111;cursor:pointer;margin-top:1em}
 </style>
 </head>
 <body>
-<form method="POST">
+<form method="POST" class="card">
+<h1>Outside Worx</h1>
+<p class="hint">Please provide your client secret to continue.</p>
 ]] .. error_html .. [[
-<input type="password" name="password" placeholder="Enter secret" autofocus>
+<input type="password" name="password" placeholder="Client secret" autofocus>
 <br>
 <button type="submit">Enter</button>
 </form>
