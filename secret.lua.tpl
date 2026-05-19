@@ -1,41 +1,41 @@
-local password = "{{CLIENT_SECRET}}"
-local gate_path = "{{CLIENT_SECRET_PATH}}"
-local cookie_name = "gate_token"
+local secret = "{{CLIENT_SECRET}}"
+local secret_path = "{{CLIENT_SECRET_PATH}}"
+local cookie_name = "access_token"
 local cookie_value = "granted"
 
 function check_access(r)
-    if r.uri == gate_path .. "secret" then
-        return handle_gate(r)
+    if r.uri == secret_path .. "secret" then
+        return handle_secret(r)
     end
     local cookies = r.headers_in["Cookie"] or ""
     if cookies:match(cookie_name .. "=" .. cookie_value) then
         return apache2.DECLINED
     end
-    r.headers_out["Location"] = gate_path .. "secret"
+    r.headers_out["Location"] = secret_path .. "secret"
     r.status = 302
     return apache2.DONE
 end
 
-function handle_gate(r)
+function handle_secret(r)
     if r.method == "POST" then
         local body = r:requestbody()
         local submitted = nil
         if body then
-            submitted = body:match("password=([^&]*)")
+            submitted = body:match("secret=([^&]*)")
             if submitted then
                 submitted = submitted:gsub("%%(%x%x)", function(h) return string.char(tonumber(h, 16)) end)
                 submitted = submitted:gsub("+", " ")
             end
         end
-        if submitted == password then
-            r.headers_out["Set-Cookie"] = cookie_name .. "=" .. cookie_value .. "; Path=" .. gate_path .. "; HttpOnly; SameSite=Strict"
-            r.headers_out["Location"] = gate_path
+        if submitted == secret then
+            r.headers_out["Set-Cookie"] = cookie_name .. "=" .. cookie_value .. "; Path=" .. secret_path .. "; HttpOnly; SameSite=Strict"
+            r.headers_out["Location"] = secret_path
             r.status = 302
             return apache2.DONE
         end
         r.status = 200
         r.content_type = "text/html"
-        r:write(get_form("Incorrect secret"))
+        r:write(get_form("Try again!"))
         return apache2.DONE
     end
     r.status = 200
@@ -69,7 +69,7 @@ button{padding:.5em 1.5em;font-size:1em;border:none;border-radius:4px;background
 <h1>Outside Worx</h1>
 <p class="hint">Please provide your client secret to continue.</p>
 ]] .. error_html .. [[
-<input type="password" name="password" autofocus>
+<input type="password" name="secret" autofocus>
 <br>
 <button type="submit">Enter</button>
 </form>
