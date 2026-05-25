@@ -6,6 +6,7 @@ RUN git -C /sites submodule update --init --depth 1
 FROM httpd:2.4
 ARG NAME
 ENV NAME=${NAME}
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
 COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist-test.conf /usr/local/apache2/conf/extra/blacklist-test.conf
 COPY secret.lua.tpl /usr/local/apache2/conf/secret.lua.tpl
