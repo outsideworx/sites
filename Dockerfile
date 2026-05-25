@@ -10,6 +10,10 @@ COPY --from=fetcher /sites /usr/local/apache2/htdocs/
 COPY blacklist.conf /usr/local/apache2/conf/extra/blacklist.conf
 COPY secret.lua.tpl /usr/local/apache2/conf/secret.lua.tpl
 
+RUN apt update \
+    && apt install -y --no-install-recommends wget \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN sed -i \
     -e 's|#LoadModule headers_module modules/mod_headers.so|LoadModule headers_module modules/mod_headers.so|' \
     -e 's|#LoadModule lua_module modules/mod_lua.so|LoadModule lua_module modules/mod_lua.so|' \
