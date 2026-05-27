@@ -7,7 +7,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
-        - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`)
+        - traefik.http.routers.come-in-and-find-out.middlewares=www-redirect
+        - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`) || Host(`www.come-in-and-find-out.ch`)
         - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
@@ -28,7 +29,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.duckumbrella.entrypoints=websecure
-        - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`)
+        - traefik.http.routers.duckumbrella.middlewares=www-redirect
+        - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`) || Host(`www.duckumbrella.net`)
         - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
@@ -47,7 +49,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.gaiapeeps.entrypoints=websecure
-        - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`)
+        - traefik.http.routers.gaiapeeps.middlewares=www-redirect
+        - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`) || Host(`www.gaiapeeps.com`)
         - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
@@ -68,7 +71,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.igli.entrypoints=websecure
-        - traefik.http.routers.igli.rule=Host(`igli.info`)
+        - traefik.http.routers.igli.middlewares=www-redirect
+        - traefik.http.routers.igli.rule=Host(`igli.info`) || Host(`www.igli.info`)
         - traefik.http.routers.igli.tls.certresolver=letsencrypt
         - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
