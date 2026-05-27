@@ -11,6 +11,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -31,6 +32,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -51,6 +53,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -71,6 +74,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -94,6 +98,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -114,6 +119,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:
@@ -134,6 +140,7 @@ services:
     healthcheck:
       interval: 5s
       retries: 3
+      start_period: 5s
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     labels:

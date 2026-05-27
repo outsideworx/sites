@@ -17,6 +17,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/come-in-and-find-out:latest
@@ -35,6 +36,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/duckumbrella:latest
@@ -55,6 +57,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/gaiapeeps:latest
@@ -73,6 +76,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/igli:latest
@@ -99,6 +103,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/outsideworx:latest
@@ -120,6 +125,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/soupart:latest
@@ -139,6 +145,7 @@ services:
     healthcheck:
       interval: 1m
       retries: 3
+      start_period: 1m
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
       timeout: 3s
     image: ghcr.io/outsideworx/soupkitchen:latest
