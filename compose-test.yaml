@@ -23,6 +23,8 @@ services:
       - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
+    volumes:
+      - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
     build:
       args:
@@ -131,6 +133,8 @@ services:
       - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
+    volumes:
+      - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
     build:
       args:
@@ -152,3 +156,6 @@ services:
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
+volumes:
+  services_cache:
+    external: true

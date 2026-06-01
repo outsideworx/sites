@@ -24,6 +24,8 @@ services:
     image: ghcr.io/outsideworx/come-in-and-find-out:latest
     networks:
       - outsideworx
+    volumes:
+      - /home/outsideworx/utils/cache/ciafo:/usr/local/apache2/htdocs/cache/ciafo:ro
   duckumbrella:
     deploy:
       labels:
@@ -135,6 +137,8 @@ services:
     image: ghcr.io/outsideworx/soupart:latest
     networks:
       - outsideworx
+    volumes:
+      - /home/outsideworx/utils/cache/soup:/usr/local/apache2/htdocs/cache/soup:ro
   soupkitchen:
     deploy:
       labels:

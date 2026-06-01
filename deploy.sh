@@ -16,7 +16,6 @@ if [ -n "$1" ]; then
     exit 1
 fi
 
-rm -rf "$DEST"
 mkdir -p "$DEST"
 cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/blacklist.conf" \
