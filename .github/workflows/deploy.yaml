@@ -26,4 +26,4 @@ jobs:
             cd src/sites
             [ -f .env ] || echo "${{ secrets.ENV }}" > .env
             git pull
-            bash deploy.sh ${{ github.event.inputs.flags }}
+            bash deploy.sh "${{ github.event.inputs.flags }}"
