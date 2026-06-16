@@ -1,3 +1,9 @@
+x-healthcheck: &healthcheck
+  interval: 5s
+  retries: 3
+  start_period: 5s
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
+  timeout: 3s
 networks:
   services_default:
     external: true
@@ -9,11 +15,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: come-in-and-find-out
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
@@ -32,11 +34,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: duckumbrella
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.duckumbrella.entrypoints=websecure
@@ -53,11 +51,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: gaiapeeps
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.gaiapeeps.entrypoints=websecure
@@ -74,11 +68,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: igli
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.igli.entrypoints=websecure
@@ -98,11 +88,7 @@ services:
       CLIENT_SECRET: green007
       CLIENT_SECRET_PATH: /clients/thegreen/
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.entrypoints=websecure
@@ -119,11 +105,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: soupart
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.entrypoints=websecure
@@ -142,11 +124,7 @@ services:
       dockerfile: Dockerfile.test
     container_name: soupkitchen
     healthcheck:
-      interval: 5s
-      retries: 3
-      start_period: 5s
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.entrypoints=websecure

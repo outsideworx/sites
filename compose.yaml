@@ -1,3 +1,9 @@
+x-healthcheck: &healthcheck
+  interval: 1m
+  retries: 3
+  start_period: 1m
+  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
+  timeout: 3s
 networks:
   outsideworx:
     external: true
@@ -16,11 +22,7 @@ services:
     environment:
       TOKEN: $APP_CLIENTS_CIAFO_TOKEN
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/come-in-and-find-out:latest
     networks:
       - outsideworx
@@ -38,11 +40,7 @@ services:
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.duckumbrella.loadbalancer.server.port=80
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/duckumbrella:latest
     networks:
       - outsideworx
@@ -60,11 +58,7 @@ services:
     environment:
       TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/gaiapeeps:latest
     networks:
       - outsideworx
@@ -80,11 +74,7 @@ services:
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.igli.loadbalancer.server.port=80
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/igli:latest
     networks:
       - outsideworx
@@ -107,11 +97,7 @@ services:
       CLIENT_SECRET: $APP_CLIENTS_THEGREEN_SECRET
       CLIENT_SECRET_PATH: /clients/thegreen/
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/outsideworx:latest
     networks:
       - outsideworx
@@ -129,11 +115,7 @@ services:
     environment:
       TOKEN: $APP_CLIENTS_SOUP_TOKEN
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/soupart:latest
     networks:
       - outsideworx
@@ -151,11 +133,7 @@ services:
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupkitchen.loadbalancer.server.port=80
     healthcheck:
-      interval: 1m
-      retries: 3
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-      timeout: 3s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/soupkitchen:latest
     networks:
       - outsideworx
