@@ -2,14 +2,14 @@ name: Deploy
 on:
   workflow_dispatch:
     inputs:
-      host:
-        description: 'SSH host to deploy to'
-        required: true
-        default: 'services.outsideworx.net'
       flags:
+        default: ''
         description: 'Flags to pass to deploy.sh'
         required: false
-        default: ''
+      host:
+        default: 'services.outsideworx.net'
+        description: 'SSH host to deploy to'
+        required: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
