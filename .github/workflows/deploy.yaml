@@ -12,10 +12,9 @@ on:
         required: true
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
+      - uses: appleboy/ssh-action@v1
         with:
           host: ${{ github.event.inputs.host }}
           username: ${{ secrets.SSH_USER }}
