@@ -6,10 +6,6 @@ on:
         default: ''
         description: 'Flags to pass to deploy.sh'
         required: false
-      host:
-        default: 'services.outsideworx.net'
-        description: 'SSH host to deploy to'
-        required: true
 jobs:
   deploy:
     runs-on: self-hosted
