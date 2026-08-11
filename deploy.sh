@@ -5,17 +5,6 @@ DEST="/home/outsideworx/sites"
 
 set -e
 
-if [ "$1" == "--install" ]; then
-    apt update
-    apt install -y docker-compose-v2
-    exit 0
-fi
-
-if [ -n "$1" ]; then
-    echo "Error: Unknown parameter '$1'"
-    exit 1
-fi
-
 mkdir -p "$DEST"
 cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/blacklist.conf" \
