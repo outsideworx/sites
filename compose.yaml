@@ -142,11 +142,8 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.tunde-divat.entrypoints=websecure
-        - traefik.http.routers.tunde-divat.middlewares=www-redirect
         - traefik.http.routers.tunde-divat.rule=Host(`tunde-divat.outsideworx.net`)
         - traefik.http.routers.tunde-divat.tls.certresolver=letsencrypt
-        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
-        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/index.html
         - traefik.http.services.tunde-divat.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/tunde-divat:latest
     networks:
