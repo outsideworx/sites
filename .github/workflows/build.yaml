@@ -26,6 +26,7 @@ jobs:
           - outsideworx
           - soupart
           - soupkitchen
+          - tunde-divat
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
