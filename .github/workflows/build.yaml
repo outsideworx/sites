@@ -11,6 +11,7 @@ on:
       - build-outsideworx
       - build-soupart
       - build-soupkitchen
+      - build-tunde-divat
 jobs:
   build-sites:
     if: github.event_name == 'push'
