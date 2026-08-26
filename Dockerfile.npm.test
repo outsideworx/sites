@@ -1,0 +1,16 @@
+FROM bitnami/git AS fetcher
+ARG NAME
+RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /sites
+
+FROM node:22-alpine AS builder
+ARG NPM_BUILD_DIR=apps/web/dist
+COPY --from=fetcher /sites /build
+WORKDIR /build
+RUN npm ci
+RUN npm run build
+
+FROM httpd:2.4
+ARG NPM_BUILD_DIR=apps/web/dist
+COPY --from=builder /build/${NPM_BUILD_DIR} /usr/local/apache2/htdocs/
+
+EXPOSE 80

@@ -134,6 +134,27 @@ services:
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
     networks:
       - services_default
+  tunde-divat:
+    build:
+      args:
+        NAME: tunde-divat
+      dockerfile: Dockerfile.npm.test
+    container_name: tunde-divat
+    healthcheck:
+      interval: 5s
+      retries: 2
+      start_period: 1m
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/index.html"]
+      timeout: 30s
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tunde-divat.entrypoints=websecure
+      - traefik.http.routers.tunde-divat.rule=Host(`tunde-divat.localhost`)
+      - traefik.http.routers.tunde-divat.tls=true
+      - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=5s
+      - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/index.html
+    networks:
+      - services_default
 volumes:
   services_cache:
     external: true
