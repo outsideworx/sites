@@ -44,6 +44,9 @@ jobs:
           file: ${{ matrix.dockerfile || 'Dockerfile' }}
           push: true
           tags: ghcr.io/outsideworx/${{ matrix.name }}:latest
+      - if: matrix.name == 'tunde-divat'
+        name: Redeploy tunde-divat
+        run: docker service update --force --with-registry-auth --image ghcr.io/outsideworx/tunde-divat:latest sites_tunde-divat
   build:
     if: github.event_name == 'repository_dispatch'
     runs-on: self-hosted
@@ -61,3 +64,6 @@ jobs:
           file: ${{ contains(fromJson('["tunde-divat"]'), github.event.client_payload.name) && 'Dockerfile.npm' || 'Dockerfile' }}
           push: true
           tags: ghcr.io/outsideworx/${{ github.event.client_payload.name }}:latest
+      - if: github.event.client_payload.name == 'tunde-divat'
+        name: Redeploy tunde-divat
+        run: docker service update --force --with-registry-auth --image ghcr.io/outsideworx/tunde-divat:latest sites_tunde-divat
