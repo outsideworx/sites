@@ -144,7 +144,24 @@ services:
         - traefik.http.routers.tunde-divat.entrypoints=websecure
         - traefik.http.routers.tunde-divat.rule=Host(`tunde-divat.outsideworx.net`)
         - traefik.http.routers.tunde-divat.tls.certresolver=letsencrypt
-        - traefik.http.services.tunde-divat.loadbalancer.server.port=80
+        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
+        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/api/health
+        - traefik.http.services.tunde-divat.loadbalancer.server.port=4000
+    environment:
+      CORS_ORIGIN: https://tunde-divat.outsideworx.net
+      DATABASE_URL: file:/data/tunde-divat.db
+      SESSION_SECRET: $TUNDE_DIVAT_SESSION_SECRET
+      UPLOAD_DIR: /data/uploads
+    healthcheck:
+      interval: 1m
+      retries: 2
+      start_period: 1m
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4000/api/health"]
+      timeout: 30s
     image: ghcr.io/outsideworx/tunde-divat:latest
     networks:
       - outsideworx
+    volumes:
+      - tunde-divat:/data
+volumes:
+  tunde-divat:

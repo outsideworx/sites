@@ -3,14 +3,34 @@ ARG NAME
 RUN git clone --depth 1 https://github.com/outsideworx/${NAME}.git /sites
 
 FROM node:22-alpine AS builder
-ARG NPM_BUILD_DIR=apps/web/dist
 COPY --from=fetcher /sites /build
 WORKDIR /build
+# Build the SPA with an empty API base so the frontend calls the API on the
+# same origin via relative /api/... paths (no CORS, cookies just work).
+ENV VITE_API_URL=""
 RUN npm ci
 RUN npm run build
 
-FROM httpd:2.4
-ARG NPM_BUILD_DIR=apps/web/dist
-COPY --from=builder /build/${NPM_BUILD_DIR} /usr/local/apache2/htdocs/
+FROM node:22-alpine
+WORKDIR /app
+# The built monorepo carries installed dependencies, the generated Prisma
+# client, compiled API output, and the built SPA. Copy it wholesale so the
+# runtime has the Prisma CLI (migrate deploy) and tsx (seed) available.
+COPY --from=builder /build /app
+# The API serves the built SPA from this directory (see apps/api/src/app.ts).
+ENV WEB_DIST_DIR=/app/apps/web/dist
+ENV NODE_ENV=production
 
-EXPOSE 80
+# Migrate (idempotent) and seed (upserts) against the SQLite volume, then start
+# the API. Runs from apps/api so Prisma resolves prisma/schema.prisma.
+RUN printf '%s\n' \
+  '#!/bin/sh' \
+  'set -e' \
+  'cd /app/apps/api' \
+  'npx prisma migrate deploy' \
+  'npm run seed' \
+  'exec node dist/server.js' \
+  > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+
+EXPOSE 4000
+CMD ["/app/entrypoint.sh"]
