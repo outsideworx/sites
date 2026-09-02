@@ -142,7 +142,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.tunde-divat.entrypoints=websecure
-        - traefik.http.routers.tunde-divat.rule=Host(`tunde-divat.outsideworx.net`)
+        - traefik.http.routers.tunde-divat.rule=Host(`tundedivat.com`)
         - traefik.http.routers.tunde-divat.tls.certresolver=letsencrypt
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/api/health
