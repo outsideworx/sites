@@ -162,4 +162,6 @@ services:
     networks:
       - outsideworx
     volumes:
-      - /home/outsideworx/tunde-divat:/data
+      - tunde-divat:/data
+volumes:
+  tunde-divat:

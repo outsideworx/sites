@@ -161,9 +161,6 @@ services:
       - traefik.http.services.tunde-divat.loadbalancer.server.port=4000
     networks:
       - services_default
-    volumes:
-      - tunde-divat:/data
 volumes:
   services_cache:
     external: true
-  tunde-divat:
