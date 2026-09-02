@@ -1,16 +1,10 @@
-name: Build
+name: Build NPM
 on:
   push:
     branches: [main]
   repository_dispatch:
     types:
-      - build-come-in-and-find-out
-      - build-duckumbrella
-      - build-gaiapeeps
-      - build-igli
-      - build-outsideworx
-      - build-soupart
-      - build-soupkitchen
+      - build-tunde-divat
 jobs:
   build-sites:
     if: github.event_name == 'push'
@@ -18,13 +12,7 @@ jobs:
     strategy:
       matrix:
         name:
-          - come-in-and-find-out
-          - duckumbrella
-          - gaiapeeps
-          - igli
-          - outsideworx
-          - soupart
-          - soupkitchen
+          - tunde-divat
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3
@@ -36,7 +24,7 @@ jobs:
         with:
           build-args: NAME=${{ matrix.name }}
           context: .
-          file: Dockerfile
+          file: Dockerfile.npm
           push: true
           tags: ghcr.io/outsideworx/${{ matrix.name }}:latest
   build:
@@ -53,6 +41,6 @@ jobs:
         with:
           build-args: NAME=${{ github.event.client_payload.name }}
           context: .
-          file: Dockerfile
+          file: Dockerfile.npm
           push: true
           tags: ghcr.io/outsideworx/${{ github.event.client_payload.name }}:latest

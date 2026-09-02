@@ -1,0 +1,16 @@
+name: Redeploy
+on:
+  workflow_run:
+    branches: [main]
+    types: [completed]
+    workflows: [Build, Build NPM]
+jobs:
+  redeploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        name:
+          - tunde-divat
+    steps:
+      - run: docker service update --force --with-registry-auth --image ghcr.io/outsideworx/${{ matrix.name }}:latest sites_${{ matrix.name }}

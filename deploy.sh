@@ -6,6 +6,7 @@ DEST="/home/outsideworx/sites"
 set -e
 
 mkdir -p "$DEST"
+mkdir -p /home/outsideworx/tunde-divat
 cp "$SCRIPT_DIR/.env" \
    "$SCRIPT_DIR/blacklist.conf" \
    "$SCRIPT_DIR/compose.yaml" \
