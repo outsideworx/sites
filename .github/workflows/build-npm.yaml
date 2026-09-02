@@ -25,6 +25,7 @@ jobs:
           build-args: NAME=${{ matrix.name }}
           context: .
           file: Dockerfile.npm
+          no-cache: true
           push: true
           tags: ghcr.io/outsideworx/${{ matrix.name }}:latest
   build:
@@ -42,5 +43,6 @@ jobs:
           build-args: NAME=${{ github.event.client_payload.name }}
           context: .
           file: Dockerfile.npm
+          no-cache: true
           push: true
           tags: ghcr.io/outsideworx/${{ github.event.client_payload.name }}:latest
