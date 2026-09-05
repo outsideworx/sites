@@ -141,8 +141,13 @@ services:
       dockerfile: Dockerfile.npm.test
     container_name: tunde-divat
     environment:
+      AI_PROVIDER: openai
       CORS_ORIGIN: https://tunde-divat.localhost
       DATABASE_URL: file:/data/tunde-divat.db
+      OPENAI_API_KEY: ""
+      SEED_ADMIN_PASSWORD: admin1234
+      SEED_ADMIN_USERNAME: admin123
+      SEED_INVITE_CODE: tunde2026
       SESSION_SECRET: test-session-secret-at-least-32-characters
       UPLOAD_DIR: /data/uploads
     healthcheck:
