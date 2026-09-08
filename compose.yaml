@@ -149,7 +149,7 @@ services:
         - traefik.http.services.tunde-divat.loadbalancer.server.port=4000
     environment:
       AI_PROVIDER: $TUNDE_DIVAT_AI_PROVIDER
-      CORS_ORIGIN: https://tunde-divat.outsideworx.net
+      CORS_ORIGIN: https://tundedivat.com
       DATABASE_URL: file:/data/tunde-divat.db
       OPENAI_API_KEY: $TUNDE_DIVAT_OPENAI_API_KEY
       SEED_ADMIN_PASSWORD: $TUNDE_DIVAT_SEED_ADMIN_PASSWORD
