@@ -8,7 +8,7 @@ on:
 jobs:
   build-sites:
     if: github.event_name == 'push'
-    runs-on: self-hosted
+    runs-on: outsideworx
     strategy:
       matrix:
         include:
@@ -38,7 +38,7 @@ jobs:
           tags: ghcr.io/outsideworx/${{ matrix.name }}:latest
   build:
     if: github.event_name == 'repository_dispatch'
-    runs-on: self-hosted
+    runs-on: outsideworx
     steps:
       - uses: actions/checkout@v4
       - uses: docker/login-action@v3

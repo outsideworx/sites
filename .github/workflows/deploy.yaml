@@ -8,7 +8,7 @@ on:
         required: false
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: outsideworx
     steps:
       - uses: actions/checkout@v4
       - run: |
