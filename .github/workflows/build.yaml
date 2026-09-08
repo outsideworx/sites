@@ -4,14 +4,7 @@ on:
     branches: [main]
   repository_dispatch:
     types:
-      - build-come-in-and-find-out
-      - build-duckumbrella
-      - build-gaiapeeps
-      - build-igli
-      - build-outsideworx
-      - build-soupart
-      - build-soupkitchen
-      - build-tunde-divat
+      - build-sites
 jobs:
   build-sites:
     if: github.event_name == 'push'
