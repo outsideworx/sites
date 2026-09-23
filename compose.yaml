@@ -4,6 +4,9 @@ x-healthcheck: &healthcheck
   start_period: 1m
   test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
   timeout: 30s
+x-update-config: &update_config
+  failure_action: rollback
+  order: start-first
 networks:
   outsideworx:
     external: true
@@ -19,6 +22,8 @@ services:
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.come-in-and-find-out.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_CIAFO_TOKEN
     healthcheck:
@@ -27,7 +32,7 @@ services:
     networks:
       - outsideworx
     volumes:
-      - /home/outsideworx/utils/cache/ciafo:/usr/local/apache2/htdocs/cache/ciafo:ro
+      - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
     deploy:
       labels:
@@ -39,6 +44,8 @@ services:
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.duckumbrella.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     healthcheck:
       <<: *healthcheck
     image: ghcr.io/outsideworx/duckumbrella:latest
@@ -55,6 +62,8 @@ services:
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.gaiapeeps.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     healthcheck:
@@ -73,6 +82,8 @@ services:
         - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.igli.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     healthcheck:
       <<: *healthcheck
     image: ghcr.io/outsideworx/igli:latest
@@ -93,6 +104,8 @@ services:
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.outsideworx.loadbalancer.server.port=80
       mode: global
+      update_config:
+        <<: *update_config
     environment:
       CLIENT_SECRET: $APP_CLIENTS_THEGREEN_SECRET
       CLIENT_SECRET_PATH: /clients/thegreen/
@@ -112,6 +125,8 @@ services:
         - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupart.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_SOUP_TOKEN
     healthcheck:
@@ -120,7 +135,7 @@ services:
     networks:
       - outsideworx
     volumes:
-      - /home/outsideworx/utils/cache/soup:/usr/local/apache2/htdocs/cache/soup:ro
+      - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
     deploy:
       labels:
@@ -132,6 +147,8 @@ services:
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupkitchen.loadbalancer.server.port=80
+      update_config:
+        <<: *update_config
     healthcheck:
       <<: *healthcheck
     image: ghcr.io/outsideworx/soupkitchen:latest
@@ -147,6 +164,8 @@ services:
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/api/health
         - traefik.http.services.tunde-divat.loadbalancer.server.port=4000
+      update_config:
+        <<: *update_config
     environment:
       AI_PROVIDER: $TUNDE_DIVAT_AI_PROVIDER
       CORS_ORIGIN: https://tundedivat.com
@@ -169,4 +188,6 @@ services:
     volumes:
       - tunde-divat:/data
 volumes:
+  services_cache:
+    external: true
   tunde-divat:
