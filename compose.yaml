@@ -103,7 +103,6 @@ services:
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.outsideworx.loadbalancer.server.port=80
-      mode: global
       update_config:
         <<: *update_config
     environment:
