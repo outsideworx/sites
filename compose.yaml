@@ -161,8 +161,8 @@ services:
         - traefik.http.routers.tunde-divat.rule=Host(`tundedivat.com`)
         - traefik.http.routers.tunde-divat.tls.certresolver=letsencrypt
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
-        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/api/health
-        - traefik.http.services.tunde-divat.loadbalancer.server.port=4000
+        - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/metrics
+        - traefik.http.services.tunde-divat.loadbalancer.server.port=80
       update_config:
         <<: *update_config
     environment:
@@ -176,11 +176,7 @@ services:
       SESSION_SECRET: $TUNDE_DIVAT_SESSION_SECRET
       UPLOAD_DIR: /data/uploads
     healthcheck:
-      interval: 1m
-      retries: 2
-      start_period: 1m
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:4000/api/health"]
-      timeout: 30s
+      <<: *healthcheck
     image: ghcr.io/outsideworx/tunde-divat:latest
     networks:
       - outsideworx
