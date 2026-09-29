@@ -108,6 +108,7 @@ services:
     environment:
       CLIENT_SECRET: $APP_CLIENTS_THEGREEN_SECRET
       CLIENT_SECRET_PATH: /clients/thegreen/
+      TOKEN: $APP_CLIENTS_WORX_TOKEN
     healthcheck:
       <<: *healthcheck
     image: ghcr.io/outsideworx/outsideworx:latest
