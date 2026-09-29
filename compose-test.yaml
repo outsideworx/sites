@@ -142,7 +142,7 @@ services:
     container_name: tunde-divat
     environment:
       AI_PROVIDER: openai
-      CORS_ORIGIN: https://tunde-divat.localhost
+      CORS_ORIGIN: https://tundedivat.localhost
       DATABASE_URL: file:/data/tunde-divat.db
       OPENAI_API_KEY: ""
       SEED_ADMIN_PASSWORD: admin1234
@@ -155,7 +155,7 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.tunde-divat.entrypoints=websecure
-      - traefik.http.routers.tunde-divat.rule=Host(`tunde-divat.localhost`)
+      - traefik.http.routers.tunde-divat.rule=Host(`tundedivat.localhost`)
       - traefik.http.routers.tunde-divat.tls=true
       - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/metrics
