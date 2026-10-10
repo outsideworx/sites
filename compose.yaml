@@ -41,7 +41,7 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
-    <<: [*healthcheck, *networks]
+    <<: *healthcheck
     deploy:
       <<: [*placement, *update_config]
       labels:
@@ -54,6 +54,8 @@ services:
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.duckumbrella.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/duckumbrella:latest
+    networks:
+      edge:
   gaiapeeps:
     <<: [*healthcheck, *networks]
     deploy:
@@ -71,7 +73,7 @@ services:
       TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     image: ghcr.io/outsideworx/gaiapeeps:latest
   igli:
-    <<: [*healthcheck, *networks]
+    <<: *healthcheck
     deploy:
       <<: [*placement, *update_config]
       labels:
@@ -84,6 +86,8 @@ services:
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.igli.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/igli:latest
+    networks:
+      edge:
   outsideworx:
     <<: [*healthcheck, *networks]
     deploy:
@@ -124,7 +128,7 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
-    <<: [*healthcheck, *networks]
+    <<: *healthcheck
     deploy:
       <<: [*placement, *update_config]
       labels:
@@ -137,6 +141,8 @@ services:
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupkitchen.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/soupkitchen:latest
+    networks:
+      edge:
   tunde-divat:
     <<: *healthcheck
     deploy:
