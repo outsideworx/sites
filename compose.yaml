@@ -1,18 +1,33 @@
 x-healthcheck: &healthcheck
-  interval: 1m
-  retries: 2
-  start_period: 1m
-  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-  timeout: 30s
+  healthcheck:
+    interval: 1m
+    retries: 2
+    start_period: 1m
+    test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
+    timeout: 30s
+x-networks: &networks
+  networks:
+    outsideworx:
+x-placement: &placement
+  placement:
+    constraints:
+      - node.role == manager
 x-update-config: &update_config
-  failure_action: rollback
-  order: start-first
+  update_config:
+    failure_action: rollback
+    order: start-first
 networks:
+  edge:
+    external: true
   outsideworx:
     external: true
 services:
   come-in-and-find-out:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
@@ -22,19 +37,17 @@ services:
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.come-in-and-find-out.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_CIAFO_TOKEN
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/come-in-and-find-out:latest
-    networks:
-      - outsideworx
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.duckumbrella.entrypoints=websecure
@@ -44,15 +57,13 @@ services:
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.duckumbrella.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/duckumbrella:latest
-    networks:
-      - outsideworx
   gaiapeeps:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.gaiapeeps.entrypoints=websecure
@@ -62,17 +73,15 @@ services:
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.gaiapeeps.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_PEEPS_TOKEN
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/gaiapeeps:latest
-    networks:
-      - outsideworx
   igli:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.igli.entrypoints=websecure
@@ -82,15 +91,13 @@ services:
         - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.igli.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/igli:latest
-    networks:
-      - outsideworx
   outsideworx:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
@@ -103,19 +110,17 @@ services:
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.outsideworx.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
     environment:
       CLIENT_SECRET: $APP_CLIENTS_THEGREEN_SECRET
       CLIENT_SECRET_PATH: /clients/thegreen/
       TOKEN: $APP_CLIENTS_WORX_TOKEN
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/outsideworx:latest
-    networks:
-      - outsideworx
   soupart:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupart.entrypoints=websecure
@@ -125,19 +130,17 @@ services:
         - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupart.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
     environment:
       TOKEN: $APP_CLIENTS_SOUP_TOKEN
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/soupart:latest
-    networks:
-      - outsideworx
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
+    <<: *healthcheck
+    <<: *networks
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupkitchen.entrypoints=websecure
@@ -147,15 +150,12 @@ services:
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.soupkitchen.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/soupkitchen:latest
-    networks:
-      - outsideworx
   tunde-divat:
+    <<: *healthcheck
     deploy:
+      <<: *placement
+      <<: *update_config
       labels:
         - traefik.enable=true
         - traefik.http.routers.tunde-divat.entrypoints=websecure
@@ -164,8 +164,6 @@ services:
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/metrics
         - traefik.http.services.tunde-divat.loadbalancer.server.port=80
-      update_config:
-        <<: *update_config
     environment:
       AI_PROVIDER: $TUNDE_DIVAT_AI_PROVIDER
       CORS_ORIGIN: https://tundedivat.com
@@ -176,11 +174,9 @@ services:
       SEED_INVITE_CODE: $TUNDE_DIVAT_SEED_INVITE_CODE
       SESSION_SECRET: $TUNDE_DIVAT_SESSION_SECRET
       UPLOAD_DIR: /data/uploads
-    healthcheck:
-      <<: *healthcheck
     image: ghcr.io/outsideworx/tunde-divat:latest
     networks:
-      - outsideworx
+      edge:
     volumes:
       - tunde-divat:/data
 volumes:

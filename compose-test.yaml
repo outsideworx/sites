@@ -1,21 +1,25 @@
 x-healthcheck: &healthcheck
-  interval: 5s
-  retries: 2
-  start_period: 1m
-  test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
-  timeout: 30s
+  healthcheck:
+    interval: 5s
+    retries: 2
+    start_period: 1m
+    test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/metrics"]
+    timeout: 30s
+x-networks: &networks
+  networks:
+    services_default:
 networks:
   services_default:
     external: true
 services:
   come-in-and-find-out:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: come-in-and-find-out
       dockerfile: Dockerfile.test
     container_name: come-in-and-find-out
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
@@ -23,18 +27,16 @@ services:
       - traefik.http.routers.come-in-and-find-out.tls=true
       - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: duckumbrella
       dockerfile: Dockerfile.test
     container_name: duckumbrella
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.duckumbrella.entrypoints=websecure
@@ -42,16 +44,14 @@ services:
       - traefik.http.routers.duckumbrella.tls=true
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
   gaiapeeps:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: gaiapeeps
       dockerfile: Dockerfile.test
     container_name: gaiapeeps
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.gaiapeeps.entrypoints=websecure
@@ -59,16 +59,14 @@ services:
       - traefik.http.routers.gaiapeeps.tls=true
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
   igli:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: igli
       dockerfile: Dockerfile.test
     container_name: igli
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.igli.entrypoints=websecure
@@ -76,9 +74,9 @@ services:
       - traefik.http.routers.igli.tls=true
       - traefik.http.services.igli.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
   outsideworx:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: outsideworx
@@ -87,8 +85,6 @@ services:
     environment:
       CLIENT_SECRET: green007
       CLIENT_SECRET_PATH: /clients/thegreen/
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.outsideworx.entrypoints=websecure
@@ -96,16 +92,14 @@ services:
       - traefik.http.routers.outsideworx.tls=true
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
   soupart:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: soupart
       dockerfile: Dockerfile.test
     container_name: soupart
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.entrypoints=websecure
@@ -113,18 +107,16 @@ services:
       - traefik.http.routers.soupart.tls=true
       - traefik.http.services.soupart.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.soupart.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: soupkitchen
       dockerfile: Dockerfile.test
     container_name: soupkitchen
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.entrypoints=websecure
@@ -132,9 +124,9 @@ services:
       - traefik.http.routers.soupkitchen.tls=true
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
-    networks:
-      - services_default
   tunde-divat:
+    <<: *healthcheck
+    <<: *networks
     build:
       args:
         NAME: tunde-divat
@@ -150,8 +142,6 @@ services:
       SEED_INVITE_CODE: tunde2026
       SESSION_SECRET: test-session-secret-at-least-32-characters
       UPLOAD_DIR: /data/uploads
-    healthcheck:
-      <<: *healthcheck
     labels:
       - traefik.enable=true
       - traefik.http.routers.tunde-divat.entrypoints=websecure
@@ -160,8 +150,6 @@ services:
       - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.tunde-divat.loadbalancer.healthcheck.path=/metrics
       - traefik.http.services.tunde-divat.loadbalancer.server.port=80
-    networks:
-      - services_default
 volumes:
   services_cache:
     external: true
