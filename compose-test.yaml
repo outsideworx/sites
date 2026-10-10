@@ -13,8 +13,7 @@ networks:
     external: true
 services:
   come-in-and-find-out:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: come-in-and-find-out
@@ -30,8 +29,7 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: duckumbrella
@@ -45,8 +43,7 @@ services:
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.path=/metrics
   gaiapeeps:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: gaiapeeps
@@ -60,8 +57,7 @@ services:
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.path=/metrics
   igli:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: igli
@@ -75,8 +71,7 @@ services:
       - traefik.http.services.igli.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.igli.loadbalancer.healthcheck.path=/metrics
   outsideworx:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: outsideworx
@@ -93,8 +88,7 @@ services:
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.path=/metrics
   soupart:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: soupart
@@ -110,8 +104,7 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: soupkitchen
@@ -125,8 +118,7 @@ services:
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=5s
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.path=/metrics
   tunde-divat:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     build:
       args:
         NAME: tunde-divat

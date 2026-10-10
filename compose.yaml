@@ -23,11 +23,9 @@ networks:
     external: true
 services:
   come-in-and-find-out:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
@@ -43,11 +41,9 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   duckumbrella:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.duckumbrella.entrypoints=websecure
@@ -59,11 +55,9 @@ services:
         - traefik.http.services.duckumbrella.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/duckumbrella:latest
   gaiapeeps:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.gaiapeeps.entrypoints=websecure
@@ -77,11 +71,9 @@ services:
       TOKEN: $APP_CLIENTS_PEEPS_TOKEN
     image: ghcr.io/outsideworx/gaiapeeps:latest
   igli:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.igli.entrypoints=websecure
@@ -93,11 +85,9 @@ services:
         - traefik.http.services.igli.loadbalancer.server.port=80
     image: ghcr.io/outsideworx/igli:latest
   outsideworx:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
@@ -116,11 +106,9 @@ services:
       TOKEN: $APP_CLIENTS_WORX_TOKEN
     image: ghcr.io/outsideworx/outsideworx:latest
   soupart:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupart.entrypoints=websecure
@@ -136,11 +124,9 @@ services:
     volumes:
       - services_cache:/usr/local/apache2/htdocs/cache:ro
   soupkitchen:
-    <<: *healthcheck
-    <<: *networks
+    <<: [*healthcheck, *networks]
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupkitchen.entrypoints=websecure
@@ -154,8 +140,7 @@ services:
   tunde-divat:
     <<: *healthcheck
     deploy:
-      <<: *placement
-      <<: *update_config
+      <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
         - traefik.http.routers.tunde-divat.entrypoints=websecure
