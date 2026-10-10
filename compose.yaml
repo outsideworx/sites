@@ -160,8 +160,6 @@ services:
       SESSION_SECRET: $TUNDE_DIVAT_SESSION_SECRET
       UPLOAD_DIR: /data/uploads
     image: ghcr.io/outsideworx/tunde-divat:latest
-    networks:
-      edge:
     volumes:
       - tunde-divat:/data
 volumes:
