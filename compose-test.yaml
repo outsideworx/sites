@@ -22,7 +22,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
-      - traefik.http.routers.come-in-and-find-out.middlewares=compress
       - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.localhost`)
       - traefik.http.routers.come-in-and-find-out.tls=true
       - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=5s
@@ -39,7 +38,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.duckumbrella.entrypoints=websecure
-      - traefik.http.routers.duckumbrella.middlewares=compress
       - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.localhost`)
       - traefik.http.routers.duckumbrella.tls=true
       - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=5s
@@ -54,7 +52,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.gaiapeeps.entrypoints=websecure
-      - traefik.http.routers.gaiapeeps.middlewares=compress
       - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.localhost`)
       - traefik.http.routers.gaiapeeps.tls=true
       - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=5s
@@ -86,9 +83,7 @@ services:
       CLIENT_SECRET_PATH: /clients/thegreen/
     labels:
       - traefik.enable=true
-      - traefik.http.middlewares.compress.compress.includedcontenttypes=text/css,text/html,text/javascript,text/plain,application/javascript,application/json,image/svg+xml
       - traefik.http.routers.outsideworx.entrypoints=websecure
-      - traefik.http.routers.outsideworx.middlewares=compress
       - traefik.http.routers.outsideworx.rule=Host(`outsideworx.localhost`)
       - traefik.http.routers.outsideworx.tls=true
       - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=5s
@@ -103,7 +98,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupart.entrypoints=websecure
-      - traefik.http.routers.soupart.middlewares=compress
       - traefik.http.routers.soupart.rule=Host(`soupart.localhost`)
       - traefik.http.routers.soupart.tls=true
       - traefik.http.services.soupart.loadbalancer.healthcheck.interval=5s
@@ -120,7 +114,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.soupkitchen.entrypoints=websecure
-      - traefik.http.routers.soupkitchen.middlewares=compress
       - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.localhost`)
       - traefik.http.routers.soupkitchen.tls=true
       - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=5s
@@ -145,7 +138,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.tunde-divat.entrypoints=websecure
-      - traefik.http.routers.tunde-divat.middlewares=compress
       - traefik.http.routers.tunde-divat.rule=Host(`tundedivat.localhost`)
       - traefik.http.routers.tunde-divat.tls=true
       - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=5s
