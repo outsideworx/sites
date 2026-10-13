@@ -29,7 +29,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.come-in-and-find-out.entrypoints=websecure
-        - traefik.http.routers.come-in-and-find-out.middlewares=www-redirect
+        - traefik.http.routers.come-in-and-find-out.middlewares=compress,www-redirect
         - traefik.http.routers.come-in-and-find-out.rule=Host(`come-in-and-find-out.ch`) || Host(`www.come-in-and-find-out.ch`)
         - traefik.http.routers.come-in-and-find-out.tls.certresolver=letsencrypt
         - traefik.http.services.come-in-and-find-out.loadbalancer.healthcheck.interval=1m
@@ -47,7 +47,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.duckumbrella.entrypoints=websecure
-        - traefik.http.routers.duckumbrella.middlewares=www-redirect
+        - traefik.http.routers.duckumbrella.middlewares=compress,www-redirect
         - traefik.http.routers.duckumbrella.rule=Host(`duckumbrella.net`) || Host(`www.duckumbrella.net`)
         - traefik.http.routers.duckumbrella.tls.certresolver=letsencrypt
         - traefik.http.services.duckumbrella.loadbalancer.healthcheck.interval=1m
@@ -63,7 +63,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.gaiapeeps.entrypoints=websecure
-        - traefik.http.routers.gaiapeeps.middlewares=www-redirect
+        - traefik.http.routers.gaiapeeps.middlewares=compress,www-redirect
         - traefik.http.routers.gaiapeeps.rule=Host(`gaiapeeps.com`) || Host(`www.gaiapeeps.com`)
         - traefik.http.routers.gaiapeeps.tls.certresolver=letsencrypt
         - traefik.http.services.gaiapeeps.loadbalancer.healthcheck.interval=1m
@@ -79,7 +79,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.igli.entrypoints=websecure
-        - traefik.http.routers.igli.middlewares=www-redirect
+        - traefik.http.routers.igli.middlewares=compress,www-redirect
         - traefik.http.routers.igli.rule=Host(`igli.info`) || Host(`www.igli.info`)
         - traefik.http.routers.igli.tls.certresolver=letsencrypt
         - traefik.http.services.igli.loadbalancer.healthcheck.interval=1m
@@ -94,11 +94,12 @@ services:
       <<: [*placement, *update_config]
       labels:
         - traefik.enable=true
+        - traefik.http.middlewares.compress.compress.includedcontenttypes=text/css,text/html,text/javascript,text/plain,application/javascript,application/json,image/svg+xml
         - traefik.http.middlewares.www-redirect.redirectregex.permanent=true
         - traefik.http.middlewares.www-redirect.redirectregex.regex=^https://www\.(.+)
         - traefik.http.middlewares.www-redirect.redirectregex.replacement=https://$${1}
         - traefik.http.routers.outsideworx.entrypoints=websecure
-        - traefik.http.routers.outsideworx.middlewares=www-redirect
+        - traefik.http.routers.outsideworx.middlewares=compress,www-redirect
         - traefik.http.routers.outsideworx.rule=Host(`outsideworx.net`) || Host(`www.outsideworx.net`)
         - traefik.http.routers.outsideworx.tls.certresolver=letsencrypt
         - traefik.http.services.outsideworx.loadbalancer.healthcheck.interval=1m
@@ -116,7 +117,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupart.entrypoints=websecure
-        - traefik.http.routers.soupart.middlewares=www-redirect
+        - traefik.http.routers.soupart.middlewares=compress,www-redirect
         - traefik.http.routers.soupart.rule=Host(`soupart.net`) || Host(`www.soupart.net`)
         - traefik.http.routers.soupart.tls.certresolver=letsencrypt
         - traefik.http.services.soupart.loadbalancer.healthcheck.interval=1m
@@ -134,7 +135,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.routers.soupkitchen.entrypoints=websecure
-        - traefik.http.routers.soupkitchen.middlewares=www-redirect
+        - traefik.http.routers.soupkitchen.middlewares=compress,www-redirect
         - traefik.http.routers.soupkitchen.rule=Host(`soupkitchen.info`) || Host(`www.soupkitchen.info`)
         - traefik.http.routers.soupkitchen.tls.certresolver=letsencrypt
         - traefik.http.services.soupkitchen.loadbalancer.healthcheck.interval=1m
@@ -146,10 +147,11 @@ services:
   tunde-divat:
     <<: *healthcheck
     deploy:
-      <<: [*placement, *update_config]
+      <<: *placement
       labels:
         - traefik.enable=true
         - traefik.http.routers.tunde-divat.entrypoints=websecure
+        - traefik.http.routers.tunde-divat.middlewares=compress
         - traefik.http.routers.tunde-divat.rule=Host(`tundedivat.com`)
         - traefik.http.routers.tunde-divat.tls.certresolver=letsencrypt
         - traefik.http.services.tunde-divat.loadbalancer.healthcheck.interval=1m
@@ -166,6 +168,8 @@ services:
       SESSION_SECRET: $TUNDE_DIVAT_SESSION_SECRET
       UPLOAD_DIR: /data/uploads
     image: ghcr.io/outsideworx/tunde-divat:latest
+    networks:
+      edge:
     volumes:
       - tunde-divat:/data
 volumes:
