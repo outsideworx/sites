@@ -41,7 +41,7 @@ EOF
 
 RUN cat <<'EOF' > /usr/local/bin/docker-entrypoint.sh
 #!/bin/sh
-echo "Define TOKEN ${TOKEN:-none}" > /usr/local/apache2/conf/extra/httpd-token.conf
+echo "Define TOKEN $(cat /run/secrets/token 2>/dev/null || echo none)" > /usr/local/apache2/conf/extra/httpd-token.conf
 if [ -n "${CLIENT_SECRET}" ]; then
     sed -e "s|{{CLIENT_SECRET}}|${CLIENT_SECRET}|g" \
         -e "s|{{CLIENT_SECRET_PATH}}|${CLIENT_SECRET_PATH:-/}|g" \
