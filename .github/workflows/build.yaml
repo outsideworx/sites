@@ -7,7 +7,7 @@ on:
       - build-sites
 jobs:
   build-sites:
-    if: github.event_name == 'push'
+    if: ${{ github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'DOC:') }}
     runs-on: outsideworx
     strategy:
       matrix:
