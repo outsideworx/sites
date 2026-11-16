@@ -66,7 +66,6 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.igli.entrypoints=websecure
-      - traefik.http.routers.igli.middlewares=compress
       - traefik.http.routers.igli.rule=Host(`igli.localhost`)
       - traefik.http.routers.igli.tls=true
       - traefik.http.services.igli.loadbalancer.healthcheck.interval=5s
